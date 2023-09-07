@@ -1,35 +1,73 @@
 <div align="center">
   <img src="resources/mmdet-logo.png" width="600"/>
-
+  <div>&nbsp;</div>
+  <div align="center">
+    <b><font size="5">OpenMMLab 官网</font></b>
+    <sup>
+      <a href="https://openmmlab.com">
+        <i><font size="4">HOT</font></i>
+      </a>
+    </sup>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <b><font size="5">OpenMMLab 开放平台</font></b>
+    <sup>
+      <a href="https://platform.openmmlab.com">
+        <i><font size="4">TRY IT OUT</font></i>
+      </a>
+    </sup>
+  </div>
+  <div>&nbsp;</div>
 
 [![PyPI](https://img.shields.io/pypi/v/mmdet)](https://pypi.org/project/mmdet)
 [![docs](https://img.shields.io/badge/docs-latest-blue)](https://mmdetection.readthedocs.io/en/latest/)
 [![badge](https://github.com/open-mmlab/mmdetection/workflows/build/badge.svg)](https://github.com/open-mmlab/mmdetection/actions)
-[![codecov](https://codecov.io/gh/open-mmlab/mmdetection/branch/master/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmdetection)
-[![license](https://img.shields.io/github/license/open-mmlab/mmdetection.svg)](https://github.com/open-mmlab/mmdetection/blob/master/LICENSE)
+[![codecov](https://codecov.io/gh/open-mmlab/mmdetection/branch/main/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmdetection)
+[![license](https://img.shields.io/github/license/open-mmlab/mmdetection.svg)](https://github.com/open-mmlab/mmdetection/blob/main/LICENSE)
 [![open issues](https://isitmaintained.com/badge/open/open-mmlab/mmdetection.svg)](https://github.com/open-mmlab/mmdetection/issues)
+[![issue resolution](https://isitmaintained.com/badge/resolution/open-mmlab/mmdetection.svg)](https://github.com/open-mmlab/mmdetection/issues)
 
-
-  <img src="https://user-images.githubusercontent.com/12907710/137271636-56ba1cd2-b110-4812-8221-b4c120320aa9.png"/>
-
-
-[📘使用文档](https://mmdetection.readthedocs.io/zh_CN/v2.19.0/) |
-[🛠️安装教程](https://mmdetection.readthedocs.io/zh_CN/v2.19.0/get_started.html) |
-[👀模型库](https://mmdetection.readthedocs.io/zh_CN/v2.19.0/model_zoo.html) |
-[🆕更新日志](https://mmdetection.readthedocs.io/en/v2.19.0/changelog.html) |
+[📘使用文档](https://mmdetection.readthedocs.io/zh_CN/latest/) |
+[🛠️安装教程](https://mmdetection.readthedocs.io/zh_CN/latest/get_started.html) |
+[👀模型库](https://mmdetection.readthedocs.io/zh_CN/latest/model_zoo.html) |
+[🆕更新日志](https://mmdetection.readthedocs.io/en/latest/notes/changelog.html) |
 [🚀进行中的项目](https://github.com/open-mmlab/mmdetection/projects) |
 [🤔报告问题](https://github.com/open-mmlab/mmdetection/issues/new/choose)
 
 </div>
 
-## 简介
+<div align="center">
 
 [English](README.md) | 简体中文
 
+</div>
+
+<div align="center">
+  <a href="https://openmmlab.medium.com/" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/219255827-67c1a27f-f8c5-46a9-811d-5e57448c61d1.png" width="3%" alt="" /></a>
+  <img src="https://user-images.githubusercontent.com/25839884/218346358-56cc8e2f-a2b8-487f-9088-32480cceabcf.png" width="3%" alt="" />
+  <a href="https://discord.com/channels/1037617289144569886/1046608014234370059" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/218347213-c080267f-cbb6-443e-8532-8e1ed9a58ea9.png" width="3%" alt="" /></a>
+  <img src="https://user-images.githubusercontent.com/25839884/218346358-56cc8e2f-a2b8-487f-9088-32480cceabcf.png" width="3%" alt="" />
+  <a href="https://twitter.com/OpenMMLab" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/218346637-d30c8a0f-3eba-4699-8131-512fb06d46db.png" width="3%" alt="" /></a>
+  <img src="https://user-images.githubusercontent.com/25839884/218346358-56cc8e2f-a2b8-487f-9088-32480cceabcf.png" width="3%" alt="" />
+  <a href="https://www.youtube.com/openmmlab" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/218346691-ceb2116a-465a-40af-8424-9f30d2348ca9.png" width="3%" alt="" /></a>
+  <img src="https://user-images.githubusercontent.com/25839884/218346358-56cc8e2f-a2b8-487f-9088-32480cceabcf.png" width="3%" alt="" />
+  <a href="https://space.bilibili.com/1293512903" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/219026751-d7d14cce-a7c9-4e82-9942-8375fca65b99.png" width="3%" alt="" /></a>
+  <img src="https://user-images.githubusercontent.com/25839884/218346358-56cc8e2f-a2b8-487f-9088-32480cceabcf.png" width="3%" alt="" />
+  <a href="https://www.zhihu.com/people/openmmlab" style="text-decoration:none;">
+    <img src="https://user-images.githubusercontent.com/25839884/219026120-ba71e48b-6e94-4bd4-b4e9-b7d175b5e362.png" width="3%" alt="" /></a>
+</div>
+
+## 简介
+
 MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 [OpenMMLab](https://openmmlab.com/) 项目的一部分。
 
-主分支代码目前支持 PyTorch 1.5 以上的版本。
+主分支代码目前支持 PyTorch 1.6 以上的版本。
 
+<img src="https://user-images.githubusercontent.com/12907710/187674113-2074d658-f2fb-42d1-ac15-9c4a695e64d7.png"/>
 
 <details open>
 <summary>主要特性</summary>
@@ -38,9 +76,9 @@ MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 [Ope
 
   MMDetection 将检测框架解耦成不同的模块组件，通过组合不同的模块组件，用户可以便捷地构建自定义的检测模型
 
-- **丰富的即插即用的算法和模型**
+- **支持多种检测任务**
 
-  MMDetection 支持了众多主流的和最新的检测算法，例如 Faster R-CNN，Mask R-CNN，RetinaNet 等。
+  MMDetection 支持了各种不同的检测任务，包括**目标检测**，**实例分割**，**全景分割**，以及**半监督目标检测**。
 
 - **速度快**
 
@@ -49,119 +87,296 @@ MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 [Ope
 - **性能高**
 
   MMDetection 这个算法库源自于 COCO 2018 目标检测竞赛的冠军团队 *MMDet* 团队开发的代码，我们在之后持续进行了改进和提升。
+  新发布的 [RTMDet](configs/rtmdet) 还在实时实例分割和旋转目标检测任务中取得了最先进的成果，同时也在目标检测模型中取得了最佳的的参数量和精度平衡。
+
 </details>
 
-除了 MMDetection 之外，我们还开源了计算机视觉基础库 [MMCV](https://github.com/open-mmlab/mmcv)，MMCV 是 MMDetection 的主要依赖。
+除了 MMDetection 之外，我们还开源了深度学习训练库 [MMEngine](https://github.com/open-mmlab/mmengine) 和计算机视觉基础库 [MMCV](https://github.com/open-mmlab/mmcv)，它们是 MMDetection 的主要依赖。
 
-## 开源许可证
+## 最新进展
 
-该项目采用 [Apache 2.0 开源许可证](LICENSE)。
+### 亮点
 
-## 更新日志
+我们很高兴向大家介绍我们在实时目标识别任务方面的最新成果 RTMDet，包含了一系列的全卷积单阶段检测模型。 RTMDet 不仅在从 tiny 到 extra-large 尺寸的目标检测模型上实现了最佳的参数量和精度的平衡，而且在实时实例分割和旋转目标检测任务上取得了最先进的成果。 更多细节请参阅[技术报告](https://arxiv.org/abs/2212.07784)。 预训练模型可以在[这里](configs/rtmdet)找到。
 
-最新的 **2.19.0** 版本已经在 2021.11.29 发布:
-- 支持了 [Label Assignment Distillation](https://arxiv.org/abs/2108.10520)
-- 对 PyTorch >= 1.7 支持 `persistent_workers`
-- 与最近更新的 YOLOX 对齐精度
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/rtmdet-an-empirical-study-of-designing-real/real-time-instance-segmentation-on-mscoco)](https://paperswithcode.com/sota/real-time-instance-segmentation-on-mscoco?p=rtmdet-an-empirical-study-of-designing-real)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/rtmdet-an-empirical-study-of-designing-real/object-detection-in-aerial-images-on-dota-1)](https://paperswithcode.com/sota/object-detection-in-aerial-images-on-dota-1?p=rtmdet-an-empirical-study-of-designing-real)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/rtmdet-an-empirical-study-of-designing-real/object-detection-in-aerial-images-on-hrsc2016)](https://paperswithcode.com/sota/object-detection-in-aerial-images-on-hrsc2016?p=rtmdet-an-empirical-study-of-designing-real)
 
-如果想了解更多版本更新细节和历史信息，请阅读[更新日志](docs/changelog.md)。
+| Task                     | Dataset | AP                                   | FPS(TRT FP16 BS1 3090) |
+| ------------------------ | ------- | ------------------------------------ | ---------------------- |
+| Object Detection         | COCO    | 52.8                                 | 322                    |
+| Instance Segmentation    | COCO    | 44.6                                 | 188                    |
+| Rotated Object Detection | DOTA    | 78.9(single-scale)/81.3(multi-scale) | 121                    |
 
-如果想了解 MMDetection 不同版本之间的兼容性, 请参考[兼容性说明文档](docs/compatibility.md)。
+<div align=center>
+<img src="https://user-images.githubusercontent.com/12907710/208044554-1e8de6b5-48d8-44e4-a7b5-75076c7ebb71.png"/>
+</div>
 
-## 基准测试和模型库
+**v3.0.0** 版本已经在 2023.4.6 发布：
 
-测试结果和模型可以在[模型库](docs/model_zoo.md)中找到。
-
-<details open>
-<summary>已支持的骨干网络：</summary>
-
-- [x] ResNet (CVPR'2016)
-- [x] ResNeXt (CVPR'2017)
-- [x] VGG (ICLR'2015)
-- [x] MobileNetV2 (CVPR'2018)
-- [x] HRNet (CVPR'2019)
-- [x] RegNet (CVPR'2020)
-- [x] Res2Net (TPAMI'2020)
-- [x] ResNeSt (ArXiv'2020)
-- [X] Swin (CVPR'2021)
-- [x] PVT (ICCV'2021)
-- [x] PVTv2 (ArXiv'2021)
-</details>
-
-<details open>
-<summary>已支持的算法：</summary>
-
-- [x] [RPN (NeurIPS'2015)](configs/rpn)
-- [x] [Fast R-CNN (ICCV'2015)](configs/fast_rcnn)
-- [x] [Faster R-CNN (NeurIPS'2015)](configs/faster_rcnn)
-- [x] [Mask R-CNN (ICCV'2017)](configs/mask_rcnn)
-- [x] [Cascade R-CNN (CVPR'2018)](configs/cascade_rcnn)
-- [x] [Cascade Mask R-CNN (CVPR'2018)](configs/cascade_rcnn)
-- [x] [SSD (ECCV'2016)](configs/ssd)
-- [x] [RetinaNet (ICCV'2017)](configs/retinanet)
-- [x] [GHM (AAAI'2019)](configs/ghm)
-- [x] [Mask Scoring R-CNN (CVPR'2019)](configs/ms_rcnn)
-- [x] [Double-Head R-CNN (CVPR'2020)](configs/double_heads)
-- [x] [Hybrid Task Cascade (CVPR'2019)](configs/htc)
-- [x] [Libra R-CNN (CVPR'2019)](configs/libra_rcnn)
-- [x] [Guided Anchoring (CVPR'2019)](configs/guided_anchoring)
-- [x] [FCOS (ICCV'2019)](configs/fcos)
-- [x] [RepPoints (ICCV'2019)](configs/reppoints)
-- [x] [Foveabox (TIP'2020)](configs/foveabox)
-- [x] [FreeAnchor (NeurIPS'2019)](configs/free_anchor)
-- [x] [NAS-FPN (CVPR'2019)](configs/nas_fpn)
-- [x] [ATSS (CVPR'2020)](configs/atss)
-- [x] [FSAF (CVPR'2019)](configs/fsaf)
-- [x] [PAFPN (CVPR'2018)](configs/pafpn)
-- [x] [Dynamic R-CNN (ECCV'2020)](configs/dynamic_rcnn)
-- [x] [PointRend (CVPR'2020)](configs/point_rend)
-- [x] [CARAFE (ICCV'2019)](configs/carafe/README.md)
-- [x] [DCNv2 (CVPR'2019)](configs/dcn/README.md)
-- [x] [Group Normalization (ECCV'2018)](configs/gn/README.md)
-- [x] [Weight Standardization (ArXiv'2019)](configs/gn+ws/README.md)
-- [x] [OHEM (CVPR'2016)](configs/faster_rcnn/faster_rcnn_r50_fpn_ohem_1x_coco.py)
-- [x] [Soft-NMS (ICCV'2017)](configs/faster_rcnn/faster_rcnn_r50_fpn_soft_nms_1x_coco.py)
-- [x] [Generalized Attention (ICCV'2019)](configs/empirical_attention/README.md)
-- [x] [GCNet (ICCVW'2019)](configs/gcnet/README.md)
-- [x] [Mixed Precision (FP16) Training (ArXiv'2017)](configs/fp16/README.md)
-- [x] [InstaBoost (ICCV'2019)](configs/instaboost/README.md)
-- [x] [GRoIE (ICPR'2020)](configs/groie/README.md)
-- [x] [DetectoRS (ArXiv'2020)](configs/detectors/README.md)
-- [x] [Generalized Focal Loss (NeurIPS'2020)](configs/gfl/README.md)
-- [x] [CornerNet (ECCV'2018)](configs/cornernet/README.md)
-- [x] [Side-Aware Boundary Localization (ECCV'2020)](configs/sabl/README.md)
-- [x] [YOLOv3 (ArXiv'2018)](configs/yolo/README.md)
-- [x] [PAA (ECCV'2020)](configs/paa/README.md)
-- [x] [YOLACT (ICCV'2019)](configs/yolact/README.md)
-- [x] [CentripetalNet (CVPR'2020)](configs/centripetalnet/README.md)
-- [x] [VFNet (ArXiv'2020)](configs/vfnet/README.md)
-- [x] [DETR (ECCV'2020)](configs/detr/README.md)
-- [x] [Deformable DETR (ICLR'2021)](configs/deformable_detr/README.md)
-- [x] [CascadeRPN (NeurIPS'2019)](configs/cascade_rpn/README.md)
-- [x] [SCNet (AAAI'2021)](configs/scnet/README.md)
-- [x] [AutoAssign (ArXiv'2020)](configs/autoassign/README.md)
-- [x] [YOLOF (CVPR'2021)](configs/yolof/README.md)
-- [x] [Seasaw Loss (CVPR'2021)](configs/seesaw_loss/README.md)
-- [x] [CenterNet (CVPR'2019)](configs/centernet/README.md)
-- [x] [YOLOX (ArXiv'2021)](configs/yolox/README.md)
-- [x] [SOLO (ECCV'2020)](configs/solo/README.md)
-- [x] [QueryInst (ICCV'2021)](configs/queryinst/README.md)
-</details>
-
-我们在[基于 MMDetection 的项目](./docs/projects.md)中列举了一些其他的支持的算法。
+- 发布 MMDetection 3.0.0 正式版
+- 基于 [Label-Studio](projects/LabelStudio) 支持半自动标注流程
+- projects 中支持了 [EfficientDet](projects/EfficientDet)
 
 ## 安装
 
-请参考[快速入门文档](docs/get_started.md)进行安装。
+请参考[快速入门文档](https://mmdetection.readthedocs.io/zh_CN/latest/get_started.html)进行安装。
 
-## 快速入门
+## 教程
 
-请参考[快速入门文档](docs/get_started.md)学习 MMDetection 的基本使用。
-我们提供了 [colab 教程](demo/MMDet_Tutorial.ipynb)，也为新手提供了完整的运行教程，分别针对[已有数据集](docs/1_exist_data_model.md)和[新数据集](docs/2_new_data_model.md) 完整的使用指南
+请阅读[概述](https://mmdetection.readthedocs.io/zh_CN/latest/get_started.html)对 MMDetection 进行初步的了解。
 
-我们也提供了一些进阶教程，内容覆盖了 [finetune 模型](docs/tutorials/finetune.md)，[增加新数据集支持](docs/tutorials/new_dataset.md)，[设计新的数据预处理流程](docs/tutorials/data_pipeline.md)，[增加自定义模型](ocs/tutorials/customize_models.md)，[增加自定义的运行时配置](docs/tutorials/customize_runtime.md)，[常用工具和脚本](docs/useful_tools.md)。
+为了帮助用户更进一步了解 MMDetection，我们准备了用户指南和进阶指南，请阅读我们的[文档](https://mmdetection.readthedocs.io/zh_CN/latest/)：
 
-如果遇到问题，请参考 [常见问题解答](docs_zh-CN/faq.md)。
+- 用户指南
+
+  <details>
+
+  - [训练 & 测试](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/index.html#train-test)
+    - [学习配置文件](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/config.html)
+    - [使用已有模型在标准数据集上进行推理](https://mmdetection.readthedocs.io/en/latest/user_guides/inference.html)
+    - [数据集准备](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/dataset_prepare.html)
+    - [测试现有模型](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/test.html)
+    - [在标准数据集上训练预定义的模型](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/train.html)
+    - [在自定义数据集上进行训练](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/train.html#train-with-customized-datasets)
+    - [在标准数据集上训练自定义模型](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/new_model.html)
+    - [模型微调](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/finetune.html)
+    - [提交测试结果](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/test_results_submission.html)
+    - [权重初始化](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/init_cfg.html)
+    - [将单阶段检测器作为 RPN](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/single_stage_as_rpn.html)
+    - [半监督目标检测](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/semi_det.html)
+  - [实用工具](https://mmdetection.readthedocs.io/zh_CN/latest/user_guides/index.html#useful-tools)
+
+  </details>
+
+- 进阶指南
+
+  <details>
+
+  - [基础概念](https://mmdetection.readthedocs.io/zh_CN/latest/advanced_guides/index.html#basic-concepts)
+  - [组件定制](https://mmdetection.readthedocs.io/zh_CN/latest/advanced_guides/index.html#component-customization)
+  - [How to](https://mmdetection.readthedocs.io/zh_CN/latest/advanced_guides/index.html#how-to)
+
+  </details>
+
+我们提供了检测的 colab 教程 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](demo/MMDet_Tutorial.ipynb) 和 实例分割的 colab 教程 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](demo/MMDet_Tutorial.ipynb)
+
+同时，我们还提供了 [MMDetection 中文解读文案汇总](docs/zh_cn/article.md)
+
+若需要将2.x版本的代码迁移至新版，请参考[迁移文档](https://mmdetection.readthedocs.io/en/latest/migration.html)。
+
+## 基准测试和模型库
+
+测试结果和模型可以在[模型库](docs/zh_cn/model_zoo.md)中找到。
+
+<div align="center">
+  <b>算法架构</b>
+</div>
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>Object Detection</b>
+      </td>
+      <td>
+        <b>Instance Segmentation</b>
+      </td>
+      <td>
+        <b>Panoptic Segmentation</b>
+      </td>
+      <td>
+        <b>Other</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+        <ul>
+            <li><a href="configs/fast_rcnn">Fast R-CNN (ICCV'2015)</a></li>
+            <li><a href="configs/faster_rcnn">Faster R-CNN (NeurIPS'2015)</a></li>
+            <li><a href="configs/rpn">RPN (NeurIPS'2015)</a></li>
+            <li><a href="configs/ssd">SSD (ECCV'2016)</a></li>
+            <li><a href="configs/retinanet">RetinaNet (ICCV'2017)</a></li>
+            <li><a href="configs/cascade_rcnn">Cascade R-CNN (CVPR'2018)</a></li>
+            <li><a href="configs/yolo">YOLOv3 (ArXiv'2018)</a></li>
+            <li><a href="configs/cornernet">CornerNet (ECCV'2018)</a></li>
+            <li><a href="configs/grid_rcnn">Grid R-CNN (CVPR'2019)</a></li>
+            <li><a href="configs/guided_anchoring">Guided Anchoring (CVPR'2019)</a></li>
+            <li><a href="configs/fsaf">FSAF (CVPR'2019)</a></li>
+            <li><a href="configs/centernet">CenterNet (CVPR'2019)</a></li>
+            <li><a href="configs/libra_rcnn">Libra R-CNN (CVPR'2019)</a></li>
+            <li><a href="configs/tridentnet">TridentNet (ICCV'2019)</a></li>
+            <li><a href="configs/fcos">FCOS (ICCV'2019)</a></li>
+            <li><a href="configs/reppoints">RepPoints (ICCV'2019)</a></li>
+            <li><a href="configs/free_anchor">FreeAnchor (NeurIPS'2019)</a></li>
+            <li><a href="configs/cascade_rpn">CascadeRPN (NeurIPS'2019)</a></li>
+            <li><a href="configs/foveabox">Foveabox (TIP'2020)</a></li>
+            <li><a href="configs/double_heads">Double-Head R-CNN (CVPR'2020)</a></li>
+            <li><a href="configs/atss">ATSS (CVPR'2020)</a></li>
+            <li><a href="configs/nas_fcos">NAS-FCOS (CVPR'2020)</a></li>
+            <li><a href="configs/centripetalnet">CentripetalNet (CVPR'2020)</a></li>
+            <li><a href="configs/autoassign">AutoAssign (ArXiv'2020)</a></li>
+            <li><a href="configs/sabl">Side-Aware Boundary Localization (ECCV'2020)</a></li>
+            <li><a href="configs/dynamic_rcnn">Dynamic R-CNN (ECCV'2020)</a></li>
+            <li><a href="configs/detr">DETR (ECCV'2020)</a></li>
+            <li><a href="configs/paa">PAA (ECCV'2020)</a></li>
+            <li><a href="configs/vfnet">VarifocalNet (CVPR'2021)</a></li>
+            <li><a href="configs/sparse_rcnn">Sparse R-CNN (CVPR'2021)</a></li>
+            <li><a href="configs/yolof">YOLOF (CVPR'2021)</a></li>
+            <li><a href="configs/yolox">YOLOX (CVPR'2021)</a></li>
+            <li><a href="configs/deformable_detr">Deformable DETR (ICLR'2021)</a></li>
+            <li><a href="configs/tood">TOOD (ICCV'2021)</a></li>
+            <li><a href="configs/ddod">DDOD (ACM MM'2021)</a></li>
+            <li><a href="configs/rtmdet">RTMDet (ArXiv'2022)</a></li>
+            <li><a href="configs/conditional_detr">Conditional DETR (ICCV'2021)</a></li>
+            <li><a href="configs/dab_detr">DAB-DETR (ICLR'2022)</a></li>
+            <li><a href="configs/dino">DINO (ICLR'2023)</a></li>
+            <li><a href="projects/DiffusionDet">DiffusionDet (ArXiv'2023)</a></li>
+            <li><a href="projects/EfficientDet">EfficientDet (CVPR'2020)</a></li>
+            <li><a href="projects/Detic">Detic (ECCV'2022)</a></li>
+      </ul>
+      </td>
+      <td>
+        <ul>
+          <li><a href="configs/mask_rcnn">Mask R-CNN (ICCV'2017)</a></li>
+          <li><a href="configs/cascade_rcnn">Cascade Mask R-CNN (CVPR'2018)</a></li>
+          <li><a href="configs/ms_rcnn">Mask Scoring R-CNN (CVPR'2019)</a></li>
+          <li><a href="configs/htc">Hybrid Task Cascade (CVPR'2019)</a></li>
+          <li><a href="configs/yolact">YOLACT (ICCV'2019)</a></li>
+          <li><a href="configs/instaboost">InstaBoost (ICCV'2019)</a></li>
+          <li><a href="configs/solo">SOLO (ECCV'2020)</a></li>
+          <li><a href="configs/point_rend">PointRend (CVPR'2020)</a></li>
+          <li><a href="configs/detectors">DetectoRS (ArXiv'2020)</a></li>
+          <li><a href="configs/solov2">SOLOv2 (NeurIPS'2020)</a></li>
+          <li><a href="configs/scnet">SCNet (AAAI'2021)</a></li>
+          <li><a href="configs/queryinst">QueryInst (ICCV'2021)</a></li>
+          <li><a href="configs/mask2former">Mask2Former (ArXiv'2021)</a></li>
+          <li><a href="configs/condinst">CondInst (ECCV'2020)</a></li>
+          <li><a href="projects/SparseInst">SparseInst (CVPR'2022)</a></li>
+          <li><a href="configs/rtmdet">RTMDet (ArXiv'2022)</a></li>
+          <li><a href="configs/boxinst">BoxInst (CVPR'2021)</a></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li><a href="configs/panoptic_fpn">Panoptic FPN (CVPR'2019)</a></li>
+          <li><a href="configs/maskformer">MaskFormer (NeurIPS'2021)</a></li>
+          <li><a href="configs/mask2former">Mask2Former (ArXiv'2021)</a></li>
+        </ul>
+      </td>
+      <td>
+        </ul>
+          <li><b>Contrastive Learning</b></li>
+        <ul>
+        <ul>
+          <li><a href="configs/selfsup_pretrain">SwAV (NeurIPS'2020)</a></li>
+          <li><a href="configs/selfsup_pretrain">MoCo (CVPR'2020)</a></li>
+          <li><a href="configs/selfsup_pretrain">MoCov2 (ArXiv'2020)</a></li>
+        </ul>
+        </ul>
+        </ul>
+          <li><b>Distillation</b></li>
+        <ul>
+        <ul>
+          <li><a href="configs/ld">Localization Distillation (CVPR'2022)</a></li>
+          <li><a href="configs/lad">Label Assignment Distillation (WACV'2022)</a></li>
+        </ul>
+        </ul>
+          <li><b>Semi-Supervised Object Detection</b></li>
+        <ul>
+        <ul>
+          <li><a href="configs/soft_teacher">Soft Teacher (ICCV'2021)</a></li>
+        </ul>
+        </ul>
+      </ul>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<div align="center">
+  <b>模块组件</b>
+</div>
+<table align="center">
+  <tbody>
+    <tr align="center" valign="bottom">
+      <td>
+        <b>Backbones</b>
+      </td>
+      <td>
+        <b>Necks</b>
+      </td>
+      <td>
+        <b>Loss</b>
+      </td>
+      <td>
+        <b>Common</b>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td>
+      <ul>
+        <li>VGG (ICLR'2015)</li>
+        <li>ResNet (CVPR'2016)</li>
+        <li>ResNeXt (CVPR'2017)</li>
+        <li>MobileNetV2 (CVPR'2018)</li>
+        <li><a href="configs/hrnet">HRNet (CVPR'2019)</a></li>
+        <li><a href="configs/empirical_attention">Generalized Attention (ICCV'2019)</a></li>
+        <li><a href="configs/gcnet">GCNet (ICCVW'2019)</a></li>
+        <li><a href="configs/res2net">Res2Net (TPAMI'2020)</a></li>
+        <li><a href="configs/regnet">RegNet (CVPR'2020)</a></li>
+        <li><a href="configs/resnest">ResNeSt (ArXiv'2020)</a></li>
+        <li><a href="configs/pvt">PVT (ICCV'2021)</a></li>
+        <li><a href="configs/swin">Swin (CVPR'2021)</a></li>
+        <li><a href="configs/pvt">PVTv2 (ArXiv'2021)</a></li>
+        <li><a href="configs/resnet_strikes_back">ResNet strikes back (ArXiv'2021)</a></li>
+        <li><a href="configs/efficientnet">EfficientNet (ArXiv'2021)</a></li>
+        <li><a href="configs/convnext">ConvNeXt (CVPR'2022)</a></li>
+        <li><a href="projects/ConvNeXt-V2">ConvNeXtv2 (ArXiv'2023)</a></li>
+      </ul>
+      </td>
+      <td>
+      <ul>
+        <li><a href="configs/pafpn">PAFPN (CVPR'2018)</a></li>
+        <li><a href="configs/nas_fpn">NAS-FPN (CVPR'2019)</a></li>
+        <li><a href="configs/carafe">CARAFE (ICCV'2019)</a></li>
+        <li><a href="configs/fpg">FPG (ArXiv'2020)</a></li>
+        <li><a href="configs/groie">GRoIE (ICPR'2020)</a></li>
+        <li><a href="configs/dyhead">DyHead (CVPR'2021)</a></li>
+      </ul>
+      </td>
+      <td>
+        <ul>
+          <li><a href="configs/ghm">GHM (AAAI'2019)</a></li>
+          <li><a href="configs/gfl">Generalized Focal Loss (NeurIPS'2020)</a></li>
+          <li><a href="configs/seesaw_loss">Seasaw Loss (CVPR'2021)</a></li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li><a href="configs/faster_rcnn/faster_rcnn_r50_fpn_ohem_1x_coco.py">OHEM (CVPR'2016)</a></li>
+          <li><a href="configs/gn">Group Normalization (ECCV'2018)</a></li>
+          <li><a href="configs/dcn">DCN (ICCV'2017)</a></li>
+          <li><a href="configs/dcnv2">DCNv2 (CVPR'2019)</a></li>
+          <li><a href="configs/gn+ws">Weight Standardization (ArXiv'2019)</a></li>
+          <li><a href="configs/pisa">Prime Sample Attention (CVPR'2020)</a></li>
+          <li><a href="configs/strong_baselines">Strong Baselines (CVPR'2021)</a></li>
+          <li><a href="configs/resnet_strikes_back">Resnet strikes back (ArXiv'2021)</a></li>
+        </ul>
+      </td>
+    </tr>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+我们在[基于 MMDetection 的项目](./docs/zh_cn/notes/projects.md)中列举了一些其他的支持的算法。
+
+## 常见问题
+
+请参考 [FAQ](docs/zh_cn/notes/faq.md) 了解其他用户的常见问题。
 
 ## 贡献指南
 
@@ -189,21 +404,33 @@ MMDetection 是一款由来自不同高校和企业的研发人员共同参与�
 }
 ```
 
+## 开源许可证
+
+该项目采用 [Apache 2.0 开源许可证](LICENSE)。
+
 ## OpenMMLab 的其他项目
 
+- [MMEngine](https://github.com/open-mmlab/mmengine): OpenMMLab 深度学习模型训练基础库
 - [MMCV](https://github.com/open-mmlab/mmcv): OpenMMLab 计算机视觉基础库
 - [MIM](https://github.com/open-mmlab/mim): MIM 是 OpenMMlab 项目、算法、模型的统一入口
 - [MMClassification](https://github.com/open-mmlab/mmclassification): OpenMMLab 图像分类工具箱
 - [MMDetection](https://github.com/open-mmlab/mmdetection): OpenMMLab 目标检测工具箱
 - [MMDetection3D](https://github.com/open-mmlab/mmdetection3d): OpenMMLab 新一代通用 3D 目标检测平台
+- [MMRotate](https://github.com/open-mmlab/mmrotate): OpenMMLab 旋转框检测工具箱与测试基准
+- [MMYOLO](https://github.com/open-mmlab/mmyolo): OpenMMLab YOLO 系列工具箱与测试基准
 - [MMSegmentation](https://github.com/open-mmlab/mmsegmentation): OpenMMLab 语义分割工具箱
+- [MMOCR](https://github.com/open-mmlab/mmocr): OpenMMLab 全流程文字检测识别理解工具包
+- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab 姿态估计工具箱
+- [MMHuman3D](https://github.com/open-mmlab/mmhuman3d): OpenMMLab 人体参数化模型工具箱与测试基准
+- [MMSelfSup](https://github.com/open-mmlab/mmselfsup): OpenMMLab 自监督学习工具箱与测试基准
+- [MMRazor](https://github.com/open-mmlab/mmrazor): OpenMMLab 模型压缩工具箱与测试基准
+- [MMFewShot](https://github.com/open-mmlab/mmfewshot): OpenMMLab 少样本学习工具箱与测试基准
 - [MMAction2](https://github.com/open-mmlab/mmaction2): OpenMMLab 新一代视频理解工具箱
 - [MMTracking](https://github.com/open-mmlab/mmtracking): OpenMMLab 一体化视频目标感知平台
-- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab 姿态估计工具箱
-- [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab 图像视频编辑工具箱
-- [MMOCR](https://github.com/open-mmlab/mmocr): OpenMMLab 全流程文字检测识别理解工具包
-- [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab 图片视频生成模型工具箱
 - [MMFlow](https://github.com/open-mmlab/mmflow): OpenMMLab 光流估计工具箱与测试基准
+- [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab 图像视频编辑工具箱
+- [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab 图片视频生成模型工具箱
+- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMLab 模型部署框架
 
 ## 欢迎加入 OpenMMLab 社区
 

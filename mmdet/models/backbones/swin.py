@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import warnings
 from collections import OrderedDict
 from copy import deepcopy
@@ -6,16 +7,17 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as cp
-from mmcv.cnn import build_norm_layer, constant_init, trunc_normal_init
+from mmcv.cnn import build_norm_layer
 from mmcv.cnn.bricks.transformer import FFN, build_dropout
-from mmcv.cnn.utils.weight_init import trunc_normal_
-from mmcv.runner import BaseModule, ModuleList, _load_checkpoint
-from mmcv.utils import to_2tuple
+from mmengine.logging import MMLogger
+from mmengine.model import BaseModule, ModuleList
+from mmengine.model.weight_init import (constant_init, trunc_normal_,
+                                        trunc_normal_init)
+from mmengine.runner.checkpoint import CheckpointLoader
+from mmengine.utils import to_2tuple
 
-from ...utils import get_root_logger
-from ..builder import BACKBONES
-from ..utils.ckpt_convert import swin_converter
-from ..utils.transformer import PatchEmbed, PatchMerging
+from mmdet.registry import MODELS
+from ..layers import PatchEmbed, PatchMerging
 
 
 class WindowMSA(BaseModule):
@@ -462,7 +464,7 @@ class SwinBlockSequence(BaseModule):
             return x, hw_shape, x, hw_shape
 
 
-@BACKBONES.register_module()
+@MODELS.register_module()
 class SwinTransformer(BaseModule):
     """ Swin Transformer
     A PyTorch implement of : `Swin Transformer:
@@ -503,7 +505,7 @@ class SwinTransformer(BaseModule):
         use_abs_pos_embed (bool): If True, add absolute position embedding to
             the patch embedding. Defaults: False.
         act_cfg (dict): Config dict for activation layer.
-            Default: dict(type='LN').
+            Default: dict(type='GELU').
         norm_cfg (dict): Config dict for normalization layer at
             output of backone. Defaults: dict(type='LN').
         with_cp (bool, optional): Use checkpoint or not. Using checkpoint
@@ -515,7 +517,7 @@ class SwinTransformer(BaseModule):
             to convert some keys to make it compatible.
             Default: False.
         frozen_stages (int): Stages to be frozen (stop grad and set eval mode).
-            -1 means not freezing any parameters.
+            Default: -1 (-1 means not freezing any parameters).
         init_cfg (dict, optional): The Config for initialization.
             Defaults to None.
     """
@@ -667,7 +669,7 @@ class SwinTransformer(BaseModule):
                 param.requires_grad = False
 
     def init_weights(self):
-        logger = get_root_logger()
+        logger = MMLogger.get_current_instance()
         if self.init_cfg is None:
             logger.warn(f'No pre-trained weights for '
                         f'{self.__class__.__name__}, '
@@ -678,14 +680,13 @@ class SwinTransformer(BaseModule):
                 if isinstance(m, nn.Linear):
                     trunc_normal_init(m, std=.02, bias=0.)
                 elif isinstance(m, nn.LayerNorm):
-                    constant_init(m.bias, 0)
-                    constant_init(m.weight, 1.0)
+                    constant_init(m, 1.0)
         else:
             assert 'checkpoint' in self.init_cfg, f'Only support ' \
                                                   f'specify `Pretrained` in ' \
                                                   f'`init_cfg` in ' \
                                                   f'{self.__class__.__name__} '
-            ckpt = _load_checkpoint(
+            ckpt = CheckpointLoader.load_checkpoint(
                 self.init_cfg.checkpoint, logger=logger, map_location='cpu')
             if 'state_dict' in ckpt:
                 _state_dict = ckpt['state_dict']
@@ -761,3 +762,58 @@ class SwinTransformer(BaseModule):
                 outs.append(out)
 
         return outs
+
+
+def swin_converter(ckpt):
+
+    new_ckpt = OrderedDict()
+
+    def correct_unfold_reduction_order(x):
+        out_channel, in_channel = x.shape
+        x = x.reshape(out_channel, 4, in_channel // 4)
+        x = x[:, [0, 2, 1, 3], :].transpose(1,
+                                            2).reshape(out_channel, in_channel)
+        return x
+
+    def correct_unfold_norm_order(x):
+        in_channel = x.shape[0]
+        x = x.reshape(4, in_channel // 4)
+        x = x[[0, 2, 1, 3], :].transpose(0, 1).reshape(in_channel)
+        return x
+
+    for k, v in ckpt.items():
+        if k.startswith('head'):
+            continue
+        elif k.startswith('layers'):
+            new_v = v
+            if 'attn.' in k:
+                new_k = k.replace('attn.', 'attn.w_msa.')
+            elif 'mlp.' in k:
+                if 'mlp.fc1.' in k:
+                    new_k = k.replace('mlp.fc1.', 'ffn.layers.0.0.')
+                elif 'mlp.fc2.' in k:
+                    new_k = k.replace('mlp.fc2.', 'ffn.layers.1.')
+                else:
+                    new_k = k.replace('mlp.', 'ffn.')
+            elif 'downsample' in k:
+                new_k = k
+                if 'reduction.' in k:
+                    new_v = correct_unfold_reduction_order(v)
+                elif 'norm.' in k:
+                    new_v = correct_unfold_norm_order(v)
+            else:
+                new_k = k
+            new_k = new_k.replace('layers', 'stages', 1)
+        elif k.startswith('patch_embed'):
+            new_v = v
+            if 'proj' in k:
+                new_k = k.replace('proj', 'projection')
+            else:
+                new_k = k
+        else:
+            new_v = v
+            new_k = k
+
+        new_ckpt['backbone.' + new_k] = new_v
+
+    return new_ckpt
