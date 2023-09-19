@@ -2,7 +2,7 @@
 from mmdet.registry import MODELS
 from mmdet.utils import ConfigType, OptConfigType, OptMultiConfig
 from .single_stage import SingleStageDetector
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()

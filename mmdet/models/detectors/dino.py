@@ -11,7 +11,7 @@ from mmdet.utils import OptConfigType
 from ..layers import (CdnQueryGenerator, DeformableDetrTransformerEncoder,
                       DinoTransformerDecoder, SinePositionalEncoding)
 from .deformable_detr import DeformableDETR, MultiScaleDeformableAttention
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()

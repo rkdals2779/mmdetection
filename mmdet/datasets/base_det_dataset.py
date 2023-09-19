@@ -8,8 +8,6 @@ from mmengine.utils import is_abs
 
 from ..registry import DATASETS
 
-from mmdet.utils.io_logger import IOLogger
-
 
 @DATASETS.register_module()
 class BaseDetDataset(BaseDataset):

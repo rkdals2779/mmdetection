@@ -11,7 +11,7 @@ from torch import Tensor, nn
 from .detr_layers import (DetrTransformerDecoder, DetrTransformerDecoderLayer,
                           DetrTransformerEncoder, DetrTransformerEncoderLayer)
 from .utils import inverse_sigmoid
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 class DeformableDetrTransformerEncoder(DetrTransformerEncoder):

@@ -17,7 +17,7 @@ from mmdet.registry import METRICS
 from ..functional import (INSTANCE_OFFSET, pq_compute_multi_core,
                           pq_compute_single_core)
 
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 try:
     import panopticapi

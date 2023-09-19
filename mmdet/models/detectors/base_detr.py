@@ -8,7 +8,7 @@ from mmdet.registry import MODELS
 from mmdet.structures import OptSampleList, SampleList
 from mmdet.utils import ConfigType, OptConfigType, OptMultiConfig
 from .base import BaseDetector
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()

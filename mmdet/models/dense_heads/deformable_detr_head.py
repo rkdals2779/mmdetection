@@ -140,7 +140,7 @@ class DeformableDETRHead(DETRHead):
 
         return all_layers_outputs_classes, all_layers_outputs_coords
 
-    from mmdet.utils.io_logger import IOLogger
+    from mmdet.utils.rilab.io_logger import IOLogger
 
     @IOLogger("DeformableDetrHead")
     def loss(self, hidden_states: Tensor, references: List[Tensor],

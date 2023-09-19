@@ -9,7 +9,7 @@ from mmengine.model import BaseModule
 from mmdet.registry import MODELS
 from ..layers import CSPLayer
 
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()

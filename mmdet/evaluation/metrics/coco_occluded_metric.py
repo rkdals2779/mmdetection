@@ -11,7 +11,7 @@ from terminaltables import AsciiTable
 from mmdet.registry import METRICS
 from .coco_metric import CocoMetric
 
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 @METRICS.register_module()
 class CocoOccludedSeparatedMetric(CocoMetric):

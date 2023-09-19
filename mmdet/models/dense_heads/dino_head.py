@@ -11,7 +11,7 @@ from mmdet.structures.bbox import bbox_cxcywh_to_xyxy, bbox_xyxy_to_cxcywh
 from mmdet.utils import InstanceList, OptInstanceList, reduce_mean
 from ..utils import multi_apply
 from .deformable_detr_head import DeformableDETRHead
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 @MODELS.register_module()
 class DINOHead(DeformableDETRHead):

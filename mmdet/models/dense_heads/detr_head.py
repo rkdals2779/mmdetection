@@ -17,7 +17,7 @@ from mmdet.utils import (ConfigType, InstanceList, OptInstanceList,
                          OptMultiConfig, reduce_mean)
 from ..utils import multi_apply
 
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()
@@ -188,7 +188,7 @@ class DETRHead(BaseModule):
         losses = self.loss_by_feat(*loss_inputs)
         return losses
 
-    from mmdet.utils.io_logger import IOLogger
+    from mmdet.utils.rilab.io_logger import IOLogger
 
     @IOLogger("DETRHead")
     def loss_by_feat(

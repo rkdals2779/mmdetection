@@ -7,7 +7,7 @@ from mmengine.fileio import get_local_path
 from mmdet.registry import DATASETS
 from .base_det_dataset import BaseDetDataset
 
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 @DATASETS.register_module()
 class BDD100KDataset(BaseDetDataset):
@@ -44,7 +44,7 @@ class BDD100KDataset(BaseDetDataset):
 
         del self.bdd100k
         IOLogger("BDD100KDataset.load_data_list").log_var("len(data_list)", len(data_list))
-        IOLogger("BDD100KDataset.load_data_list").log_var("data_list[0]", data_list[0])
+        IOLogger("BDD100KDataset.load_data_list").log_var("data_list[0]", data_list)
         with open(f'/home/falcon/shin_workspace/Datacleaning/log/bdd100k{len(data_list)}.json', 'w') as file:
             json.dump(data_list, file)
         return data_list

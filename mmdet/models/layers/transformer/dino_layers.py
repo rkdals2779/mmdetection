@@ -11,8 +11,8 @@ from mmdet.structures.bbox import bbox_xyxy_to_cxcywh
 from mmdet.utils import OptConfigType
 from .deformable_detr_layers import DeformableDetrTransformerDecoder
 from .utils import MLP, coordinate_to_encoding, inverse_sigmoid
-from mmdet.utils import io_logger
-from mmdet.utils.io_logger import IOLogger
+from mmdet.utils.rilab import io_logger
+from mmdet.utils.rilab.io_logger import IOLogger
 
 
 class DinoTransformerDecoder(DeformableDetrTransformerDecoder):

@@ -12,7 +12,7 @@ checkpoint_file = '/home/falcon/shin_workspace/Datacleaning/mmdetection/checkpoi
 def try_bdd100k():
     pprinter = PrettyPrinter()
     model = init_detector(config_file, checkpoint_file, device='cuda:0')
-    visualizer = VISUALIZERS.build(model.cfg.visualizer)
+    # visualizer = VISUALIZERS.build(model.cfg.visualizer)
     data_loader = Runner.build_dataloader(model.cfg.train_dataloader)
     pprinter.pprint(cfg.train_dataloader)
 
