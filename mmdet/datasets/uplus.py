@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 sys.path.append("./uplus_script/")
 import mmdet.datasets.uplus_script.uplus_config as cfg
 from mmdet.datasets.uplus_script.uplus_reader_manager import UplusReader, UplusDriveManager
@@ -8,6 +9,8 @@ from mmdet.registry import DATASETS
 from .base_det_dataset import BaseDetDataset
 
 from mmdet.utils.rilab.io_logger import IOLogger
+print("dataset:1", DATASETS)
+print("import  uplus")
 
 @DATASETS.register_module()
 class UplusDataset(BaseDetDataset):
@@ -26,7 +29,8 @@ class UplusDataset(BaseDetDataset):
         data_list = []
 
         img_id = 1
-        mode = self.data_prefix['img'].split('/')[-1]
+        # mode = self.data_prefix['img'].split('/')[-1]
+        mode = 'train'
         drive_mngr = UplusDriveManager(dataset_cfg.PATH, mode)
         drive_paths = drive_mngr.get_drive_paths()
         for drive_path in drive_paths:
@@ -50,9 +54,17 @@ class UplusDataset(BaseDetDataset):
         data_info['img_path'] = uplus_reader.frame_names[idx]
         data_info['img_id'] = img_id
         data_info['seg_map_path'] = None
-        data_info['height'] = 1080
-        data_info['width'] = 1920
-        data_info['lane'] = uplus_reader.get_raw_lane_pts(idx)
+        data_info['height'] = cfg.Datasets.Uplus.ORI_SHAPE[0]
+        data_info['width'] = cfg.Datasets.Uplus.ORI_SHAPE[1]
+        lane_data = uplus_reader.get_raw_lane_pts(idx)
+        if len(lane_data) != 0:
+            lanes = []
+            for lane in lane_data[0]:
+                lane = np.array(lane)
+                lane = np.roll(lane, 1, axis=1) ## yx -> xy
+                lanes.append(lane)
+            data_info['lane'] = lanes
+            data_info['lane_classes'] = lane_data[1]
 
         instances = []
         bboxes, categories = uplus_reader.get_bboxes(idx)
@@ -85,3 +97,7 @@ class UplusDataset(BaseDetDataset):
 
     def cat2label(self, category):
         return self.METAINFO["classes"].index(category)
+
+
+print("dataset:2", DATASETS)
+print("")

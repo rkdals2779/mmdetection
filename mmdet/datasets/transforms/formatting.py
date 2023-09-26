@@ -130,6 +130,10 @@ class PackDetInputs(BaseTransform):
             assert key in results, f'`{key}` is not found in `results`, ' \
                 f'the valid keys are {list(results)}.'
             img_meta[key] = results[key]
+        ######
+        img_meta['lane'] = results['lane']
+        img_meta['lane_classes'] = results['lane_classes']
+        ######
 
         data_sample.set_metainfo(img_meta)
         packed_results['data_samples'] = data_sample

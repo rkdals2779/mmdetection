@@ -11,7 +11,7 @@ class MMDetCocoShapeReader(DataFrameReaderBase):
     def get_image(self, index):
         image = self.frame_data['inputs'][index].cpu().numpy().transpose(1, 2, 0)
         # image = cv2.imread(self.frame_data['data_samples'][index].img_path)
-        print(self.frame_data['data_samples'][index].img_path)
+        # print(self.frame_data['data_samples'][index].img_path)
         return image
 
     def get_box2d(self, index):
@@ -26,6 +26,11 @@ class MMDetCocoShapeReader(DataFrameReaderBase):
         for label in labels:
             classes.append(self.classes[label])
         return classes
+
+    def get_lane(self, index):
+        lane = self.frame_data['data_samples'][index].lane
+        return lane
+
 
 
 # ====================================

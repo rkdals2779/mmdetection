@@ -12,7 +12,7 @@ class Paths:
 class Datasets:
     class Uplus:
         NAME = "uplus"
-        PATH = "/media/falcon/IanBook8T/datasets/uplus22_sample"
+        PATH = "/media/falcon/IanBook8T/datasets/uplus22"
         CATEGORIES_TO_USE = ['보행자', '승용차', '트럭', '버스', '이륜차', '신호등', '자전거', '삼각콘', '차선규제봉', '과속방지턱', '포트홀', 'TS이륜차금지',
                              'TS우회전금지', 'TS좌회전금지', 'TS유턴금지', 'TS주정차금지', 'TS유턴', 'TS어린이보호', 'TS횡단보도', 'TS좌회전',
                              'TS속도제한_기타', 'TS속도제한_30', 'TS속도제한_50', 'TS속도제한_80', 'RM우회전금지', 'RM좌회전금지', 'RM직진금지',
@@ -59,6 +59,7 @@ class Datasets:
         INPUT_RESOLUTION = (512, 1280)
         CROP_TLBR = [300, 0, 0, 0]
         INCLUDE_LANE = True
+        ORI_SHAPE = (1080, 1920)
 
 
 class Dataloader:

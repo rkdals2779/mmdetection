@@ -51,10 +51,13 @@ class DatasetVisualizer:
         cv2.imshow('box2d', img)
 
     def vis_lane(self, index, color=(0, 255, 0), thickness=2):
-        img = self.dataset.get_image(index, **self.vis_cfg['box2d']).copy()
+        img = self.dataset.get_image(index, **self.vis_cfg['lane']).copy()
         lane_data = self.dataset.get_lane(index)
         for lane_polygon in lane_data:
-            lane_polygon = np.array(lane_polygon).reshape(-1, 2).astype(np.int32)
+            try:
+                lane_polygon = np.array(lane_polygon).reshape(-1, 2).astype(np.int32)
+            except:
+                print(lane_polygon.shape, "\n", lane_polygon)
             for point in lane_polygon:
                 cv2.circle(img, tuple(point), 4, color, -1)  # -1 fills the circle
 
@@ -62,7 +65,7 @@ class DatasetVisualizer:
         cv2.imshow('lane', img)
 
 
-        lane_3p_img = self.dataset.get_image(index, **self.vis_cfg['box2d']).copy()
+        lane_3p_img = self.dataset.get_image(index, **self.vis_cfg['lane']).copy()
         lane_3p = lane_3_points(lane_data)
         for lane_polygon in lane_3p:
             lane_polygon = np.array(lane_polygon).reshape(-1, 2).astype(np.int32)

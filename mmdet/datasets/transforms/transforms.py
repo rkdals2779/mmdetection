@@ -88,7 +88,6 @@ class Resize(MMCV_Resize):
             backend, "nearest", "bilinear" for 'pillow' backend. Defaults
             to 'bilinear'.
     """
-
     def _resize_masks(self, results: dict) -> None:
         """Resize masks with ``results['scale']``"""
         if results.get('gt_masks', None) is not None:
@@ -134,6 +133,18 @@ class Resize(MMCV_Resize):
             results['homography_matrix'] = homography_matrix @ results[
                 'homography_matrix']
 
+    #####
+    def resize_lane(self, results: dict) -> None:
+        if results.get('lane', None) is not None:
+            results['lane'] = self.lane_rescale(results['lane'], results['scale_factor'])
+
+    def lane_rescale(self, lane, scale_factor: Tuple[float, float]):
+        assert len(scale_factor) == 2
+        for i in lane:
+            i *= scale_factor
+        return lane
+    #####
+
     @autocast_box_type()
     def transform(self, results: dict) -> dict:
         """Transform function to resize images, bounding boxes and semantic
@@ -151,11 +162,15 @@ class Resize(MMCV_Resize):
         else:
             img_shape = results['img'].shape[:2]
             results['scale'] = _scale_size(img_shape[::-1], self.scale_factor)
+
         self._resize_img(results)
         self._resize_bboxes(results)
         self._resize_masks(results)
         self._resize_seg(results)
         self._record_homography_matrix(results)
+        #####
+        self.resize_lane(results)
+        #####
         return results
 
     def __repr__(self) -> str:
@@ -391,6 +406,22 @@ class RandomFlip(MMCV_RandomFlip):
             results['img'], direction=results['flip_direction'])
 
         img_shape = results['img'].shape[:2]
+
+        #####
+        if results.get('lane', None) is not None:
+            assert results['flip_direction'] in ['horizontal', 'vertical', 'diagonal']
+            lanes = results['lane']
+            for lane in lanes:
+                flipped_lane = lane
+                ori_lane = np.copy(lane)
+                if results['flip_direction'] == 'horizontal':
+                    flipped_lane[:, 0] = img_shape[1] - ori_lane[:, 0]
+                elif results['flip_direction'] == 'vertical':
+                    flipped_lane[:, 1] = img_shape[0] - ori_lane[:, 1]
+                else:
+                    flipped_lane[:, 0] = img_shape[1] - ori_lane[:, 0]
+                    flipped_lane[:, 1] = img_shape[0] - ori_lane[:, 1]
+        #####
 
         # flip bboxes
         if results.get('gt_bboxes', None) is not None:
@@ -724,6 +755,27 @@ class RandomCrop(BaseTransform):
         results['img'] = img
         results['img_shape'] = img_shape[:2]
 
+        #####
+        if results.get('lane', None) is not None:
+            valid_lane = []
+            lanes = results['lane']
+            for lane in lanes:
+                lane = lane + [-offset_w, -offset_h]
+
+                polygon_tf = []
+                for polygon in lane:
+                    if 0 < polygon[0] < img_shape[1] and 0 < polygon[1] < img_shape[0]:
+                        polygon_tf.append(True)
+                    else:
+                        polygon_tf.append(False)
+
+                reprint_lane = self.fit_lane_within_image(lane, img_shape[:2])
+                if reprint_lane.shape[0] > 1:
+                    valid_lane.append(reprint_lane)
+            results['lane'] = valid_lane
+
+            #####
+
         # crop bboxes accordingly and clip to the image boundary
         if results.get('gt_bboxes', None) is not None:
             bboxes = results['gt_bboxes']
@@ -760,6 +812,63 @@ class RandomCrop(BaseTransform):
                                                           crop_x1:crop_x2]
 
         return results
+
+    def fit_lane_within_image(self, lane, img_shape):
+        point_tf = []
+        for point in lane:
+            if 0 < point[0] <= img_shape[1]-1 and 0 < point[1] <= img_shape[0]-1:
+                point_tf.append(True)
+            else:
+                point_tf.append(False)
+
+        new_lane = []
+
+        for i in range(len(lane)-1):
+            if point_tf[i]:
+                if point_tf[i+1]:   # TT
+                    new_lane.append(lane[i])
+                    if i == len(lane)-2:
+                        new_lane.append(lane[i+1])
+                else:   # TF
+                    new_point = self.fit_p2_inside_image(lane[i], lane[i+1], img_shape)
+                    new_lane.append(lane[i])
+                    new_lane.append(new_point)
+                    break
+            elif point_tf[i+1]:    # FT
+                new_point = self.fit_p2_inside_image(lane[i+1], lane[i], img_shape)
+                new_lane.append(new_point)
+                if i == len(lane) - 2:
+                    new_lane.append(lane[i+1])
+
+        new_lane = np.array(new_lane)
+        return new_lane
+
+
+    def fit_p2_inside_image(self, p1, p2, img_shape):
+        width = img_shape[1]-1
+        height = img_shape[0]-1
+
+        m = (p2[1] - p1[1])/(p2[0] - p1[0]) + 1e-16
+        c = p1[1] - m*p1[0]
+
+        cross_points = []
+
+        if 0 < c < height:
+            cross_points.append([0, c])
+        if 0 < -c/m < width:
+            cross_points.append([-c/m, 0])
+        if 0 < (height - c)/m < width:
+            cross_points.append([(height - c)/m, height])
+        if 0 < m*width + c < height:
+            cross_points.append([width, m*width+c])
+
+        new_point = 0
+        for point in cross_points:
+            if p1[0] <= point[0] <= p2[0] or p2[0] <= point[0] <= p1[0]:
+                new_point = point
+                break
+        return new_point
+
 
     @cache_randomness
     def _rand_offset(self, margin: Tuple[int, int]) -> Tuple[int, int]:
