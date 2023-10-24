@@ -116,7 +116,7 @@ class YOLOXPAFPN(BaseModule):
                     norm_cfg=norm_cfg,
                     act_cfg=act_cfg))
 
-    @IOLogger("YOLOXPAFPN", count_step=True)
+    # @IOLogger("YOLOXPAFPN")
     def forward(self, inputs):
         """
         Args:

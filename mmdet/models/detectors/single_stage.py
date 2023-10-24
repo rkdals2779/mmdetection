@@ -77,6 +77,8 @@ class SingleStageDetector(BaseDetector):
         """
         x = self.extract_feat(batch_inputs)
         losses = self.bbox_head.loss(x, batch_data_samples)
+        # history_logger.log_loss(losses)
+        # history_logger.step_over()
         return losses
 
     def predict(self,

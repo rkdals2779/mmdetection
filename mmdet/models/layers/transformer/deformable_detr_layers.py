@@ -54,9 +54,7 @@ class DeformableDetrTransformerEncoder(DetrTransformerEncoder):
         """
         reference_points = self.get_encoder_reference_points(
             spatial_shapes, valid_ratios, device=query.device)
-        IOLogger("deformable_detr_layers").log_var("reference_points", reference_points)
         for layer in self.layers:
-            IOLogger("deformable_detr_layers").log_var("layer", layer)
             query = layer(
                 query=query,
                 query_pos=query_pos,
@@ -66,7 +64,6 @@ class DeformableDetrTransformerEncoder(DetrTransformerEncoder):
                 valid_ratios=valid_ratios,
                 reference_points=reference_points,
                 **kwargs)
-            IOLogger("deformable_detr_layers").log_var("query", query)
         return query
 
     @staticmethod

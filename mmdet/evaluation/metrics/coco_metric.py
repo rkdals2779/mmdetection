@@ -20,6 +20,8 @@ from ..functional import eval_recalls
 
 from mmdet.utils.rilab.io_logger import IOLogger
 
+import pdb
+
 @METRICS.register_module()
 class CocoMetric(BaseMetric):
     """COCO evaluation metric.
@@ -67,7 +69,6 @@ class CocoMetric(BaseMetric):
     """
     default_prefix: Optional[str] = 'coco'
 
-    @IOLogger("CocoMetric")
     def __init__(self,
                  ann_file: Optional[str] = None,
                  metric: Union[str, List[str]] = 'bbox',
@@ -137,7 +138,6 @@ class CocoMetric(BaseMetric):
                     sorted_categories = sorted(
                         categories, key=lambda i: i['id'])
                     self._coco_api.dataset['categories'] = sorted_categories
-                    IOLogger("CocoMetric.__init__").log_var("sorted_categories", sorted_categories)
         else:
             self._coco_api = None
 
@@ -145,7 +145,6 @@ class CocoMetric(BaseMetric):
         self.cat_ids = None
         self.img_ids = None
 
-    @IOLogger("CocoMetric")
     def fast_eval_recall(self,
                          results: List[dict],
                          proposal_nums: Sequence[int],
@@ -187,7 +186,6 @@ class CocoMetric(BaseMetric):
         ar = recalls.mean(axis=1)
         return ar
 
-    @IOLogger("CocoMetric")
     def xyxy2xywh(self, bbox: np.ndarray) -> list:
         """Convert ``xyxy`` style bounding boxes to ``xywh`` style for COCO
         evaluation.
@@ -208,7 +206,6 @@ class CocoMetric(BaseMetric):
             _bbox[3] - _bbox[1],
         ]
 
-    @IOLogger("CocoMetric")
     def results2json(self, results: Sequence[dict],
                      outfile_prefix: str) -> dict:
         """Dump the detection results to a COCO style json file.
@@ -390,7 +387,7 @@ class CocoMetric(BaseMetric):
 
         Args:
             results (list): The processed results of each batch.
-
+9
         Returns:
             Dict[str, float]: The computed metrics. The keys are the names of
             the metrics, and the values are corresponding results.
@@ -420,7 +417,7 @@ class CocoMetric(BaseMetric):
                 cat_names=self.dataset_meta['classes'])
         if self.img_ids is None:
             self.img_ids = self._coco_api.get_img_ids()
-
+        pdb.set_trace()
         # convert predictions to coco format and dump to json file
         result_files = self.results2json(preds, outfile_prefix)
 
@@ -428,6 +425,7 @@ class CocoMetric(BaseMetric):
         if self.format_only:
             logger.info('results are saved in '
                         f'{osp.dirname(outfile_prefix)}')
+            IOLogger("CocoMetric.compute_metrics").log_var("if self.format_only: eval_results", eval_results)
             return eval_results
 
         for metric in self.metrics:
@@ -593,4 +591,5 @@ class CocoMetric(BaseMetric):
 
         if tmp_dir is not None:
             tmp_dir.cleanup()
+        IOLogger("CocoMetric.compute_metrics").log_var("eval_results", eval_results)
         return eval_results

@@ -26,12 +26,12 @@ class IOLogger:
                 self.fprint(f"\n\n#################### STEP: {IOLogger.STEP_INDEX}")
 
             self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] keyword args')
-            self.print_structure('', kwargs)
+            # self.print_structure('', kwargs)
 
             ret = func(*args, **kwargs)
 
             self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] outputs')
-            self.print_structure('', ret)
+            # self.print_structure('', ret)
             return ret
         return wrapper
 
@@ -118,3 +118,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+

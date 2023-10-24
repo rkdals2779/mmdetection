@@ -127,7 +127,7 @@ class DetDataSample(BaseDataElement):
 
     @property
     def gt_instances(self) -> InstanceData:
-        IOLogger("det_data_sample").log_var("gt",self._gt_instances)
+        # IOLogger("det_data_sample").log_var("gt",self._gt_instances)
         return self._gt_instances
 
     @gt_instances.setter

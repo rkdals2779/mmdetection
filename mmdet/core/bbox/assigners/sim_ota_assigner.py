@@ -9,6 +9,8 @@ from ..iou_calculators import bbox_overlaps
 from .assign_result import AssignResult
 from .base_assigner import BaseAssigner
 
+from mmdet.utils.rilab.io_logger import IOLogger
+
 
 @BBOX_ASSIGNERS.register_module()
 class SimOTAAssigner(BaseAssigner):

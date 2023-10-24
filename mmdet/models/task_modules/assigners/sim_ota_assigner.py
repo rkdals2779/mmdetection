@@ -11,6 +11,8 @@ from mmdet.utils import ConfigType
 from .assign_result import AssignResult
 from .base_assigner import BaseAssigner
 
+from mmdet.utils.rilab.io_logger import IOLogger
+
 INF = 100000.0
 EPS = 1.0e-7
 

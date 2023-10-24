@@ -67,7 +67,6 @@ class CocoDataset(BaseDetDataset):
         with get_local_path(
                 self.ann_file, backend_args=self.backend_args) as local_path:
             self.coco = self.COCOAPI(local_path)
-            IOLogger("CocoDataset.load_data_list").log_var("local_path", local_path)
         # The order of returned `cat_ids` will not
         # change with the order of the `classes`
         self.cat_ids = self.coco.get_cat_ids(
@@ -76,11 +75,8 @@ class CocoDataset(BaseDetDataset):
         self.cat_img_map = copy.deepcopy(self.coco.cat_img_map)
 
         img_ids = self.coco.get_img_ids()
-        IOLogger("CocoDataset.load_data_list").log_var("len img_ids", len(img_ids))
         data_list = []
         total_ann_ids = []
-
-        a = True ######
 
         for img_id in img_ids:
             raw_img_info = self.coco.load_imgs([img_id])[0]
@@ -98,24 +94,12 @@ class CocoDataset(BaseDetDataset):
             })
             data_list.append(parsed_data_info)
 
-
-            if a: #######
-                IOLogger("CocoDataset.load_data_list").log_var("parsed_data_info", parsed_data_info)
-                IOLogger("CocoDataset.load_data_list").log_var("ann_ids", ann_ids)
-                IOLogger("CocoDataset.load_data_list").log_var("img_id", img_id)
-                IOLogger("CocoDataset.load_data_list").log_var("raw_img_info", raw_img_info)
-                IOLogger("CocoDataset.load_data_list").log_var("raw_ann_info", raw_ann_info)
-
-                a = False
-
         if self.ANN_ID_UNIQUE:
             assert len(set(total_ann_ids)) == len(
                 total_ann_ids
             ), f"Annotation ids in '{self.ann_file}' are not unique!"
 
         del self.coco
-        IOLogger("CocoDataset.load_data_list").log_var("len data_list", len(data_list))
-        IOLogger("CocoDataset.load_data_list").log_var("data_list_0", data_list[0])
         return data_list
 
     def parse_data_info(self, raw_data_info: dict) -> Union[dict, List[dict]]:
@@ -177,7 +161,6 @@ class CocoDataset(BaseDetDataset):
         data_info['instances'] = instances
         return data_info
 
-    @IOLogger("CocoDataset")
     def filter_data(self) -> List[dict]:
         """Filter annotations according to filter_cfg.
 
@@ -212,9 +195,5 @@ class CocoDataset(BaseDetDataset):
                 continue
             if min(width, height) >= min_size:
                 valid_data_infos.append(data_info)
-
-        IOLogger("CocoDataset.filter_data").log_var("len valid_data_infos", len(valid_data_infos))
-        IOLogger("CocoDataset.filter_data").log_var("valid_data_infos_0", valid_data_infos[0])
-
 
         return valid_data_infos

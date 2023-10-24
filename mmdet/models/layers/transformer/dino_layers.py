@@ -226,7 +226,6 @@ class CdnQueryGenerator(BaseModule):
         for sample in batch_data_samples:
             img_h, img_w = sample.img_shape
             bboxes = sample.gt_instances.bboxes
-            IOLogger("").log_var("bboxes", bboxes)
             factor = bboxes.new_tensor([img_w, img_h, img_w,
                                         img_h]).unsqueeze(0)
             bboxes_normalized = bboxes / factor
@@ -483,27 +482,15 @@ class CdnQueryGenerator(BaseModule):
             torch.arange(num_target, device=device)
             for num_target in num_target_list
         ])
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("num_target___", [
-            torch.arange(num_target, device=device)
-            for num_target in num_target_list
-        ])
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("num_target", num_target_list)
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("map_query_index", map_query_index)
+
         map_query_index = torch.cat([
             map_query_index + max_num_target * i for i in range(2 * num_groups)
         ]).long()
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("map_query_index2", map_query_index)
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("map_query_index2_slice", map_query_index[:90])
         batch_idx_expand = batch_idx.repeat(2 * num_groups, 1).view(-1)
         mapper = (batch_idx_expand, map_query_index)
 
         batched_label_query = torch.zeros(
             batch_size, num_denoising_queries, self.embed_dims, device=device)
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("batch_size", batch_size)
-
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("num_denoising_queries", num_denoising_queries)
-
-        IOLogger("DINO.pre_decoder -> CdnQueryGenerator").log_var("self.embed_dims", self.embed_dims)
 
         batched_bbox_query = torch.zeros(
             batch_size, num_denoising_queries, 4, device=device)

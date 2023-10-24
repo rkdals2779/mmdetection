@@ -190,7 +190,7 @@ class DETRHead(BaseModule):
 
     from mmdet.utils.rilab.io_logger import IOLogger
 
-    @IOLogger("DETRHead")
+    # @IOLogger("DETRHead")
     def loss_by_feat(
         self,
         all_layers_cls_scores: Tensor,
@@ -280,36 +280,23 @@ class DETRHead(BaseModule):
                                            batch_gt_instances, batch_img_metas)
         (labels_list, label_weights_list, bbox_targets_list, bbox_weights_list,
          num_total_pos, num_total_neg) = cls_reg_targets
-        IOLogger("DETRHead.loss_by_feat_single").log_var("num_imgs", num_imgs)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_reg_targets", cls_reg_targets)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("bbox_targets_list", bbox_targets_list)
         labels = torch.cat(labels_list, 0)
         label_weights = torch.cat(label_weights_list, 0)
         bbox_targets = torch.cat(bbox_targets_list, 0)
         bbox_weights = torch.cat(bbox_weights_list, 0)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("labels_list", labels_list)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("labels", labels)
 
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_scores", cls_scores)
         # classification loss
         cls_scores = cls_scores.reshape(-1, self.cls_out_channels)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_out_channels", self.cls_out_channels)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_scores", cls_scores)
         # construct weighted avg_factor to match with the official DETR repo
         cls_avg_factor = num_total_pos * 1.0 + \
             num_total_neg * self.bg_cls_weight
-        IOLogger("DETRHead.loss_by_feat_single").log_var("self.bg_cls_weight", self.bg_cls_weight)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_avg_factor", cls_avg_factor)
         if self.sync_cls_avg_factor:
             cls_avg_factor = reduce_mean(
                 cls_scores.new_tensor([cls_avg_factor]))
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_scores", cls_scores)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("cls_avg_factor", cls_avg_factor)
         cls_avg_factor = max(cls_avg_factor, 1)
 
         loss_cls = self.loss_cls(
             cls_scores, labels, label_weights, avg_factor=cls_avg_factor)
-        IOLogger("DETRHead.loss_by_feat_single").log_var("self.loss_cls", self.loss_cls)
 
         # Compute the average number of gt boxes across all gpus, for
         # normalization purposes
@@ -342,7 +329,7 @@ class DETRHead(BaseModule):
             bbox_preds, bbox_targets, bbox_weights, avg_factor=num_total_pos)
         return loss_cls, loss_bbox, loss_iou
 
-    @IOLogger("DETRHead")
+    # @IOLogger("DETRHead")
     def get_targets(self, cls_scores_list: List[Tensor],
                     bbox_preds_list: List[Tensor],
                     batch_gt_instances: InstanceList,
@@ -382,18 +369,18 @@ class DETRHead(BaseModule):
         num_total_pos = sum((inds.numel() for inds in pos_inds_list))
         num_total_neg = sum((inds.numel() for inds in neg_inds_list))
 
-        IOLogger("DETRHead.get_targets").log_var("labels_list", labels_list)
-        IOLogger("DETRHead.get_targets").log_var("label_weights_list", label_weights_list)
-        IOLogger("DETRHead.get_targets").log_var("bbox_targets_list", bbox_targets_list)
-        IOLogger("DETRHead.get_targets").log_var("bbox_weights_list", bbox_weights_list)
-        IOLogger("DETRHead.get_targets").log_var("pos_inds_list", pos_inds_list)
-        IOLogger("DETRHead.get_targets").log_var("neg_inds_list", neg_inds_list)
-        IOLogger("DETRHead.get_targets").log_var("@num_total_pos", num_total_pos)
-        IOLogger("DETRHead.get_targets").log_var("@num_total_neg", num_total_neg)
+        # IOLogger("DETRHead.get_targets").log_var("labels_list", labels_list)
+        # IOLogger("DETRHead.get_targets").log_var("label_weights_list", label_weights_list)
+        # IOLogger("DETRHead.get_targets").log_var("bbox_targets_list", bbox_targets_list)
+        # IOLogger("DETRHead.get_targets").log_var("bbox_weights_list", bbox_weights_list)
+        # IOLogger("DETRHead.get_targets").log_var("pos_inds_list", pos_inds_list)
+        # IOLogger("DETRHead.get_targets").log_var("neg_inds_list", neg_inds_list)
+        # IOLogger("DETRHead.get_targets").log_var("@num_total_pos", num_total_pos)
+        # IOLogger("DETRHead.get_targets").log_var("@num_total_neg", num_total_neg)
         return (labels_list, label_weights_list, bbox_targets_list,
                 bbox_weights_list, num_total_pos, num_total_neg)
 
-    @IOLogger("DETRHead")
+    # @IOLogger("DETRHead")
     def _get_targets_single(self, cls_score: Tensor, bbox_pred: Tensor,
                             gt_instances: InstanceData,
                             img_meta: dict) -> tuple:
@@ -422,8 +409,6 @@ class DETRHead(BaseModule):
             - pos_inds (Tensor): Sampled positive indices for each image.
             - neg_inds (Tensor): Sampled negative indices for each image.
         """
-        IOLogger("DETRHead._get_targets_single").log_var("cls_score", cls_score)
-        IOLogger("DETRHead._get_targets_single").log_var("bbox_pred", bbox_pred)
         img_h, img_w = img_meta['img_shape']
         factor = bbox_pred.new_tensor([img_w, img_h, img_w,
                                        img_h]).unsqueeze(0)
@@ -440,10 +425,6 @@ class DETRHead(BaseModule):
             img_meta=img_meta)
         gt_bboxes = gt_instances.bboxes
         gt_labels = gt_instances.labels
-        IOLogger("DETRHead._get_targets_single").log_var("assign_result", assign_result)
-        IOLogger("DETRHead._get_targets_single").log_var("gt_bboxes", gt_bboxes)
-        IOLogger("DETRHead._get_targets_single").log_var("gt_labels", gt_labels)
-        IOLogger("DETRHead._get_targets_single").log_var("gt_instances", gt_instances)
         pos_inds = torch.nonzero(
             assign_result.gt_inds > 0, as_tuple=False).squeeze(-1).unique()
         neg_inds = torch.nonzero(
@@ -451,13 +432,6 @@ class DETRHead(BaseModule):
         pos_assigned_gt_inds = assign_result.gt_inds[pos_inds] - 1
         pos_gt_bboxes = gt_bboxes[pos_assigned_gt_inds.long(), :]
 
-        IOLogger("DETRHead._get_targets_single").log_var("assign_result.gt_inds", assign_result.gt_inds)
-        IOLogger("DETRHead._get_targets_single").log_var("assign_result.gt_inds[]", assign_result.gt_inds[assign_result.gt_inds>0])
-        IOLogger("DETRHead._get_targets_single").log_var("pos_inds", pos_inds)
-        IOLogger("DETRHead._get_targets_single").log_var("neg_inds", neg_inds)
-
-        IOLogger("DETRHead._get_targets_single").log_var("pos_assigned_gt_inds", pos_assigned_gt_inds)
-        IOLogger("DETRHead._get_targets_single").log_var("pos_gt_bboxes", pos_gt_bboxes)
         # label targets
         labels = gt_bboxes.new_full((num_bboxes, ),
                                     self.num_classes,
@@ -465,10 +439,6 @@ class DETRHead(BaseModule):
         labels[pos_inds] = gt_labels[pos_assigned_gt_inds]
         label_weights = gt_bboxes.new_ones(num_bboxes)
 
-        IOLogger("DETRHead._get_targets_single").log_var("labels", labels)
-        IOLogger("DETRHead._get_targets_single").log_var("labels[]", labels[:90])
-        IOLogger("DETRHead._get_targets_single").log_var("label_weights", label_weights)
-        IOLogger("DETRHead._get_targets_single").log_var("label_weights[]", label_weights[label_weights>0])
         # bbox targets
         bbox_targets = torch.zeros_like(bbox_pred)
         bbox_weights = torch.zeros_like(bbox_pred)
@@ -480,13 +450,6 @@ class DETRHead(BaseModule):
         pos_gt_bboxes_normalized = pos_gt_bboxes / factor
         pos_gt_bboxes_targets = bbox_xyxy_to_cxcywh(pos_gt_bboxes_normalized)
         bbox_targets[pos_inds] = pos_gt_bboxes_targets
-        IOLogger("DETRHead._get_targets_single").log_var("bbox_weights", bbox_weights)
-        IOLogger("DETRHead._get_targets_single").log_var("bbox_weights[]", bbox_weights[bbox_weights>0])
-        IOLogger("DETRHead._get_targets_single").log_var("bbox_targets", bbox_targets)
-        IOLogger("DETRHead._get_targets_single").log_var("bbox_targets[]", bbox_targets[bbox_targets>0])
-
-        IOLogger("DETRHead._get_targets_single").log_var("labels", labels)
-        IOLogger("DETRHead._get_targets_single").log_var("label_weights", label_weights)
         return (labels, label_weights, bbox_targets, bbox_weights, pos_inds,
                 neg_inds)
 

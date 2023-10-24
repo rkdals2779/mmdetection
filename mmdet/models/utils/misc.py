@@ -16,6 +16,7 @@ from mmdet.structures.bbox import BaseBoxes, get_box_type, stack_boxes
 from mmdet.structures.mask import BitmapMasks, PolygonMasks
 from mmdet.utils import OptInstanceList
 
+from mmdet.utils.rilab.io_logger import IOLogger
 
 class SigmoidGeometricMean(Function):
     """Forward and backward function of geometric mean of two sigmoid

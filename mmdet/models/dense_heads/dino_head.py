@@ -70,16 +70,6 @@ class DINOHead(DeformableDETRHead):
         outs = self(hidden_states, references)
         loss_inputs = outs + (enc_outputs_class, enc_outputs_coord,
                               batch_gt_instances, batch_img_metas, dn_meta)
-        IOLogger("DINOHead.loss").log_var("(hidden_states, references)", (hidden_states, references))
-        IOLogger("DINOHead.loss").log_var("()", (enc_outputs_class, enc_outputs_coord,
-                              batch_gt_instances, batch_img_metas, dn_meta))
-        IOLogger("DINOHead.loss").log_var("hidden_states", hidden_states)
-        IOLogger("DINOHead.loss").log_var("references", references)
-        IOLogger("DINOHead.loss").log_var("references[0]", references[0])
-        IOLogger("DINOHead.loss").log_var("outs", outs)
-        IOLogger("DINOHead.loss").log_var("enc_outputs_class", enc_outputs_class)
-        IOLogger("DINOHead.loss").log_var("enc_outputs_coord", enc_outputs_coord)
-        IOLogger("DINOHead.loss").log_var("loss_inputs", loss_inputs)
         losses = self.loss_by_feat(*loss_inputs)
         return losses
 

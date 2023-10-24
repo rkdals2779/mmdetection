@@ -131,8 +131,9 @@ class PackDetInputs(BaseTransform):
                 f'the valid keys are {list(results)}.'
             img_meta[key] = results[key]
         ######
-        img_meta['lane'] = results['lane']
-        img_meta['lane_classes'] = results['lane_classes']
+        if results.get('lane', None) is not None:
+            img_meta['lane'] = results['lane']
+            img_meta['lane_classes'] = results['lane_classes']
         ######
 
         data_sample.set_metainfo(img_meta)

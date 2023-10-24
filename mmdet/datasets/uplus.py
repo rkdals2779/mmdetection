@@ -28,10 +28,10 @@ class UplusDataset(BaseDetDataset):
 
         data_list = []
 
+        mode = self.data_prefix['img'].split('/')[-1]
+
         img_id = 1
-        # mode = self.data_prefix['img'].split('/')[-1]
-        mode = 'train'
-        drive_mngr = UplusDriveManager(dataset_cfg.PATH, mode)
+        drive_mngr = UplusDriveManager(self.data_root, mode)
         drive_paths = drive_mngr.get_drive_paths()
         for drive_path in drive_paths:
             uplus_reader = UplusReader(drive_path, mode, dataset_cfg)
@@ -40,7 +40,6 @@ class UplusDataset(BaseDetDataset):
                 parsed_data_info = self.parse_data_info(info_dict)
                 img_id += 1
                 data_list.append(parsed_data_info)
-        IOLogger("UplusDataset.parse_data_info").log_var("data_list", data_list)
 
         return data_list
 

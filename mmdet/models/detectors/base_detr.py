@@ -75,8 +75,6 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         if neck is not None:
             self.neck = MODELS.build(neck)
         self.bbox_head = MODELS.build(bbox_head)
-        IOLogger("DetectionTransformer.__init__").log_var("bbox_head", bbox_head)
-        IOLogger("DetectionTransformer.__init__").log_var("self.bbox_head", self.bbox_head)
         self._init_layers()
 
     @abstractmethod
@@ -102,12 +100,8 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         img_feats = self.extract_feat(batch_inputs)
         head_inputs_dict = self.forward_transformer(img_feats=img_feats,
                                                     batch_data_samples=batch_data_samples)
-        IOLogger("DetectionTransformer.loss").log_var("head_inputs_dict", head_inputs_dict)
         losses = self.bbox_head.loss(
             **head_inputs_dict, batch_data_samples=batch_data_samples)
-
-        IOLogger("DetectionTransformer.loss").log_var("self.bbox_head", self.bbox_head)
-        IOLogger("DetectionTransformer.loss").log_var("losses", losses)
 
         return losses
 

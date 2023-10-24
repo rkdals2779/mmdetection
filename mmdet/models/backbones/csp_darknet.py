@@ -10,6 +10,8 @@ from torch.nn.modules.batchnorm import _BatchNorm
 from mmdet.registry import MODELS
 from ..layers import CSPLayer
 
+from mmdet.utils.rilab.io_logger import IOLogger
+
 
 class Focus(nn.Module):
     """Focus width and height information into channel space.
@@ -276,6 +278,7 @@ class CSPDarknet(BaseModule):
                 if isinstance(m, _BatchNorm):
                     m.eval()
 
+    # @IOLogger("CSPDarknet")
     def forward(self, x):
         outs = []
         for i, layer_name in enumerate(self.layers):

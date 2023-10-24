@@ -10,7 +10,6 @@ from mmdet.utils.rilab.io_logger import IOLogger
 
 
 # This method is only for debugging
-@IOLogger('focal_loss')
 def py_sigmoid_focal_loss(pred,
                           target,
                           weight=None,
@@ -59,7 +58,6 @@ def py_sigmoid_focal_loss(pred,
     return loss
 
 
-@IOLogger('focal_loss')
 def py_focal_loss_with_prob(pred,
                             target,
                             weight=None,
@@ -115,7 +113,6 @@ def py_focal_loss_with_prob(pred,
     return loss
 
 
-@IOLogger('focal_loss')
 def sigmoid_focal_loss(pred,
                        target,
                        weight=None,
@@ -199,7 +196,6 @@ class FocalLoss(nn.Module):
         self.loss_weight = loss_weight
         self.activated = activated
 
-    @IOLogger('FocalLoss')
     def forward(self,
                 pred,
                 target,
@@ -224,11 +220,6 @@ class FocalLoss(nn.Module):
         Returns:
             torch.Tensor: The calculated loss
         """
-        IOLogger("FocalLoss.forward").log_var("pred", pred)
-        IOLogger("FocalLoss.forward").log_var("target", target)
-        IOLogger("FocalLoss.forward").log_var("weight", weight)
-        IOLogger("FocalLoss.forward").log_var("avg_factor", avg_factor)
-        IOLogger("FocalLoss.forward").log_var("reduction_override", reduction_override)
         assert reduction_override in (None, 'none', 'mean', 'sum')
         reduction = (
             reduction_override if reduction_override else self.reduction)

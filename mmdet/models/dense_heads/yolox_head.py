@@ -21,6 +21,8 @@ from ..task_modules.samplers import PseudoSampler
 from ..utils import multi_apply
 from .base_dense_head import BaseDenseHead
 
+from mmdet.utils.rilab.io_logger import IOLogger
+
 
 @MODELS.register_module()
 class YOLOXHead(BaseDenseHead):
@@ -211,6 +213,7 @@ class YOLOXHead(BaseDenseHead):
 
         return cls_score, bbox_pred, objectness
 
+    # @IOLogger("YOLOXHead")
     def forward(self, x: Tuple[Tensor]) -> Tuple[List]:
         """Forward features from the upstream network.
 
@@ -222,6 +225,11 @@ class YOLOXHead(BaseDenseHead):
             predictions, and objectnesses.
         """
 
+        # IOLogger("YOLOXHead.forward").log_var("self.multi_level_cls_convs", self.multi_level_cls_convs)
+        # IOLogger("YOLOXHead.forward").log_var("self.multi_level_reg_convs" ,self.multi_level_reg_convs)
+        # IOLogger("YOLOXHead.forward").log_var("self.multi_level_conv_cls", self.multi_level_conv_cls)
+        # IOLogger("YOLOXHead.forward").log_var("self.multi_level_conv_reg", self.multi_level_conv_reg)
+        # IOLogger("YOLOXHead.forward").log_var("self.multi_level_conv_obj", self.multi_level_conv_obj)
         return multi_apply(self.forward_single, x, self.multi_level_cls_convs,
                            self.multi_level_reg_convs,
                            self.multi_level_conv_cls,
@@ -323,6 +331,7 @@ class YOLOXHead(BaseDenseHead):
 
         return result_list
 
+    # @IOLogger("YOLOXHead")
     def _bbox_decode(self, priors: Tensor, bbox_preds: Tensor) -> Tensor:
         """Decode regression results (delta_x, delta_x, w, h) to bboxes (tl_x,
         tl_y, br_x, br_y).
@@ -348,6 +357,7 @@ class YOLOXHead(BaseDenseHead):
         decoded_bboxes = torch.stack([tl_x, tl_y, br_x, br_y], -1)
         return decoded_bboxes
 
+    # @IOLogger("YOLOXHead")
     def _bbox_post_process(self,
                            results: InstanceData,
                            cfg: ConfigDict,
@@ -396,6 +406,7 @@ class YOLOXHead(BaseDenseHead):
             results.scores = det_bboxes[:, -1]
         return results
 
+    # @IOLogger("YOLOXHead")
     def loss_by_feat(
             self,
             cls_scores: Sequence[Tensor],
@@ -439,6 +450,10 @@ class YOLOXHead(BaseDenseHead):
             dtype=cls_scores[0].dtype,
             device=cls_scores[0].device,
             with_stride=True)
+
+        # IOLogger("YOLOXHead.loss_by_feat").log_var("cls_scores", cls_scores)
+        # IOLogger("YOLOXHead.loss_by_feat").log_var("bbox_preds", bbox_preds)
+        # IOLogger("YOLOXHead.loss_by_feat").log_var("objectnesses", objectnesses)
 
         flatten_cls_preds = [
             cls_pred.permute(0, 2, 3, 1).reshape(num_imgs, -1,

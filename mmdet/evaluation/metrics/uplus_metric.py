@@ -21,7 +21,7 @@ from ..functional import eval_recalls
 from mmdet.utils.rilab.io_logger import IOLogger
 
 @METRICS.register_module()
-class BDD100KMetric(BaseMetric):
+class UplusMetric(BaseMetric):
     default_prefix: Optional[str] = 'coco'
 
     def __init__(self,
@@ -141,6 +141,7 @@ class BDD100KMetric(BaseMetric):
             gt_bboxes, pred_bboxes, proposal_nums, iou_thrs, logger=logger)
         ar = recalls.mean(axis=1)
         return ar
+
 
     def xyxy2xywh(self, bbox: np.ndarray) -> list:
         """Convert ``xyxy`` style bounding boxes to ``xywh`` style for COCO

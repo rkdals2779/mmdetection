@@ -56,7 +56,6 @@ class BaseDetector(BaseModel, metaclass=ABCMeta):
         return ((hasattr(self, 'roi_head') and self.roi_head.with_mask)
                 or (hasattr(self, 'mask_head') and self.mask_head is not None))
 
-    @IOLogger("base.BaseDetector")
     def forward(self,
                 inputs: torch.Tensor,
                 data_samples: OptSampleList = None,
@@ -90,7 +89,6 @@ class BaseDetector(BaseModel, metaclass=ABCMeta):
             - If ``mode="predict"``, return a list of :obj:`DetDataSample`.
             - If ``mode="loss"``, return a dict of tensor.
         """
-        IOLogger("base.BaseDetector.forward").log_var("mode", mode)
         if mode == 'loss':
             return self.loss(inputs, data_samples)
         elif mode == 'predict':

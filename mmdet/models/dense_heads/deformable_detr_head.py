@@ -142,7 +142,7 @@ class DeformableDETRHead(DETRHead):
 
     from mmdet.utils.rilab.io_logger import IOLogger
 
-    @IOLogger("DeformableDetrHead")
+    # @IOLogger("DeformableDetrHead")
     def loss(self, hidden_states: Tensor, references: List[Tensor],
              enc_outputs_class: Tensor, enc_outputs_coord: Tensor,
              batch_data_samples: SampleList) -> dict:
