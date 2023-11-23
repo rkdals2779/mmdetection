@@ -134,7 +134,7 @@ class Resize(MMCV_Resize):
                 'homography_matrix']
 
     #####
-    def resize_lane(self, results: dict) -> None:
+    def _resize_lane(self, results: dict) -> None:
         if results.get('lane', None) is not None:
             results['lane'] = self.lane_rescale(results['lane'], results['scale_factor'])
 
@@ -169,7 +169,7 @@ class Resize(MMCV_Resize):
         self._resize_seg(results)
         self._record_homography_matrix(results)
         #####
-        self.resize_lane(results)
+        self._resize_lane(results)
         #####
         return results
 
@@ -2279,6 +2279,7 @@ class Mosaic(BaseTransform):
         assert 'mix_results' in results
         mosaic_bboxes = []
         mosaic_bboxes_labels = []
+        mosaic_heights = []
         mosaic_ignore_flags = []
         if len(results['img'].shape) == 3:
             mosaic_img = np.full(
@@ -2335,6 +2336,11 @@ class Mosaic(BaseTransform):
             mosaic_bboxes_labels.append(gt_bboxes_labels_i)
             mosaic_ignore_flags.append(gt_ignore_flags_i)
 
+            #####
+            if 'gt_heights' in results_patch.keys():
+                gt_heights_i = results_patch['gt_heights']
+                mosaic_heights.append(gt_heights_i)
+
         mosaic_bboxes = mosaic_bboxes[0].cat(mosaic_bboxes, 0)
         mosaic_bboxes_labels = np.concatenate(mosaic_bboxes_labels, 0)
         mosaic_ignore_flags = np.concatenate(mosaic_ignore_flags, 0)
@@ -2353,6 +2359,12 @@ class Mosaic(BaseTransform):
         results['gt_bboxes'] = mosaic_bboxes
         results['gt_bboxes_labels'] = mosaic_bboxes_labels
         results['gt_ignore_flags'] = mosaic_ignore_flags
+
+        #####
+        if 'gt_heights' in results.keys():
+            mosaic_heights = np.concatenate(mosaic_heights, 0)
+            mosaic_heights = mosaic_heights[inside_inds]
+            results['gt_heights'] = mosaic_heights
         return results
 
     def _mosaic_combine(
@@ -2636,6 +2648,16 @@ class MixUp(BaseTransform):
         results['gt_bboxes_labels'] = mixup_gt_bboxes_labels
         results['gt_ignore_flags'] = mixup_gt_ignore_flags
 
+
+
+        #####
+        if results.get('gt_heights', None) is not None:
+            retrieve_gt_heights = retrieve_results['gt_heights']
+            mixup_gt_heights = np.concatenate(
+                (results['gt_heights'], retrieve_gt_heights), axis=0)
+            mixup_gt_heights = mixup_gt_heights[inside_inds]
+            results['gt_heights'] = mixup_gt_heights
+
         return results
 
     def __repr__(self):
@@ -2769,6 +2791,11 @@ class RandomAffine(BaseTransform):
                 valid_index]
             results['gt_ignore_flags'] = results['gt_ignore_flags'][
                 valid_index]
+
+            #####
+            if 'gt_heights' in results.keys():
+                results['gt_heights'] = results['gt_heights'][
+                    valid_index]
 
             if 'gt_masks' in results:
                 raise NotImplementedError('RandomAffine only supports bbox.')

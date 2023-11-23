@@ -113,7 +113,6 @@ def analyze_per_img_dets(confusion_matrix,
             have done nms in the detector, only applied when users want to
             change the nms IoU threshold. Default: None.
     """
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"*10)
     true_positives = np.zeros(len(gts))
     gt_bboxes = []
     gt_labels = []

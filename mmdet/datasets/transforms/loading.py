@@ -381,6 +381,14 @@ class LoadAnnotations(MMCV_LoadAnnotations):
             gt_masks = PolygonMasks([mask for mask in gt_masks], h, w)
         results['gt_masks'] = gt_masks
 
+    def _load_heights(self, results: dict) -> None:
+        gt_heights = []
+        for instance in results.get('instances', []):
+            gt_heights.append(instance['height'])
+        # TODO: Inconsistent with mmcv, consider how to deal with it later.
+        results['gt_heights'] = np.array(
+            gt_heights, dtype=np.float32)
+
     def transform(self, results: dict) -> dict:
         """Function to load multiple types annotations.
 
@@ -400,6 +408,10 @@ class LoadAnnotations(MMCV_LoadAnnotations):
             self._load_masks(results)
         if self.with_seg:
             self._load_seg_map(results)
+
+        #####
+        if 'height' in results['instances'][0].keys():
+            self._load_heights(results)
         return results
 
     def __repr__(self) -> str:
@@ -744,6 +756,10 @@ class FilterAnnotations(BaseTransform):
         for key in keys:
             if key in results:
                 results[key] = results[key][keep]
+
+        #####
+        if results.get('gt_heights', None) is not None:
+            results['gt_heights'] = results['gt_heights'][keep]
 
         return results
 

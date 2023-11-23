@@ -9,8 +9,9 @@ from mmdet.utils.rilab.dataloader.readers.mmdet_coco_shape_reader import MMDetCo
 from mmdet.utils.rilab.dataloader.readers.dataset_visualizer import DatasetVisualizer
 
 
-config_file = '../configs/Uplus/dino/dino-4scale_r50_8xb2-12e_uplus.py'
-# config_file = '../configs/dino/dino-4scale_r50_8xb2-12e_coco.py'
+config_file = '../configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py'
+# config_file = '../configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py'
+# config_file = '../configs/Uplus/dino/dino-4scale_r50_8xb2-12e_uplus.py'
 cfg = Config.fromfile(config_file)
 checkpoint_file = '/home/falcon/shin_workspace/Datacleaning/mmdetection/checkpoints/dino-5scale_swin-l_8xb2-36e_coco-5486e051.pth'
 
@@ -20,7 +21,7 @@ def try_uplus():
     data_loader = Runner.build_dataloader(model.cfg.train_dataloader)
 
     for idx, batch_frame_data in enumerate(data_loader):
-        classes = data_loader.dataset.METAINFO['classes']
+        classes = data_loader.dataset.metainfo['classes']
         mmreader = MMDetCocoShapeReader(batch_frame_data, classes)
         batch_size = len(batch_frame_data['inputs'])
         vis_cfg = {'image': {},
@@ -30,7 +31,7 @@ def try_uplus():
         vs = DatasetVisualizer(mmreader, vis_cfg)
         for i in range(batch_size):
             print(batch_frame_data['data_samples'][i].img_path)
-            vs.visualize(i, wait=1)
+            vs.visualize(i, wait=0)
             bboxed = mmreader.get_box2d(i)
             image = mmreader.get_image(i)
             classes = mmreader.get_class(i)

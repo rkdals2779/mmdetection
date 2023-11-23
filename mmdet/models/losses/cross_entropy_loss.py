@@ -1,4 +1,5 @@
 # Copyright (c) OpenMMLab. All rights reserved.
+import pdb
 import warnings
 
 import torch
@@ -298,4 +299,5 @@ class CrossEntropyLoss(nn.Module):
             ignore_index=ignore_index,
             avg_non_ignore=self.avg_non_ignore,
             **kwargs)
+
         return loss_cls

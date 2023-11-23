@@ -111,6 +111,13 @@ class PackDetInputs(BaseTransform):
                 else:
                     instance_data[self.mapping_table[key]] = to_tensor(
                         results[key])
+        #####
+        if "gt_heights" in results.keys():
+            instance_data["heights"] = to_tensor(results["gt_heights"][valid_idx])
+        else:
+            instance_data["heights"] = to_tensor(np.random.rand(len(valid_idx), 1))
+        #####
+
         data_sample.gt_instances = instance_data
         data_sample.ignored_instances = ignore_instance_data
 

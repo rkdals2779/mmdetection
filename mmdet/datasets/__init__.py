@@ -17,6 +17,7 @@ from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
 from .bdd100k import BDD100KDataset
 from .uplus import UplusDataset
+from .hyundai import HyundaiDataset
 
 __all__ = [
     'XMLDataset', 'CocoDataset', 'DeepFashionDataset', 'VOCDataset',
@@ -26,5 +27,5 @@ __all__ = [
     'AspectRatioBatchSampler', 'ClassAwareSampler', 'MultiSourceSampler',
     'GroupMultiSourceSampler', 'BaseDetDataset', 'CrowdHumanDataset',
     'Objects365V1Dataset', 'Objects365V2Dataset', 'BDD100KDataset',
-    'UplusDataset'
+    'UplusDataset', 'HyundaiDataset'
 ]

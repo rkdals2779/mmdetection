@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'UplusDataset'
-data_root = '/media/falcon/IanBook8T/datasets/uplus22/'
+data_root = '/media/falcon/IanBook8T/datasets/uplus22_sample_50/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module

@@ -70,8 +70,8 @@ model = dict(
     test_cfg=dict(score_thr=0.01, nms=dict(type='nms', iou_threshold=0.65)))
 
 # dataset settings
-dataset_type = 'UplusDataset'
-data_root = '/media/falcon/IanBook8T/datasets/uplus22_sample_50/'
+dataset_type = 'HyundaiDataset'
+data_root = '/media/falcon/IanBook8T/datasets/uplus22_sample/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
@@ -162,7 +162,6 @@ val_dataloader = dict(
     dataset=dict(
         type=dataset_type,
         data_root=data_root,
-        ann_file='annotations/instances_val2017.json',
         data_prefix=dict(img='val'),
         test_mode=True,
         pipeline=test_pipeline,
@@ -171,7 +170,6 @@ test_dataloader = val_dataloader
 
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file='/media/falcon/IanBook8T/datasets/coco/annotations/instances_val2017.json',
     metric='bbox',
     backend_args=backend_args)
 test_evaluator = val_evaluator
@@ -247,3 +245,8 @@ custom_hooks = [
 # USER SHOULD NOT CHANGE ITS VALUES.
 # base_batch_size = (8 GPUs) x (8 samples per GPU)
 auto_scale_lr = dict(base_batch_size=64)
+
+
+#####
+
+#####

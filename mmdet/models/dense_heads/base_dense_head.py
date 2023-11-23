@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import copy
+import pdb
 from abc import ABCMeta, abstractmethod
 from inspect import signature
 from typing import List, Optional, Tuple
@@ -84,7 +85,7 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
         if len(self._raw_positive_infos) == 0:
             return None
 
-        sampling_results = self._raw_positive_infos.get(
+        sampling_results = self._raw_positive_i0nfos.get(
             'sampling_results', None)
         assert sampling_results is not None
         positive_infos = []
@@ -116,6 +117,7 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
         outs = self(x)
 
         outputs = unpack_gt_instances(batch_data_samples)
+
         (batch_gt_instances, batch_gt_instances_ignore,
          batch_img_metas) = outputs
 
@@ -197,6 +199,8 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
 
         predictions = self.predict_by_feat(
             *outs, batch_img_metas=batch_img_metas, rescale=rescale)
+        print("predict=========")
+        # pdb.set_trace()
         return predictions
 
     def predict_by_feat(self,

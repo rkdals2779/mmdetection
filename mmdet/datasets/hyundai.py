@@ -1,8 +1,8 @@
 import sys
 import numpy as np
-sys.path.append("./uplus_script/")
-import mmdet.datasets.uplus_script.uplus_config as cfg
-from mmdet.datasets.uplus_script.uplus_reader_manager import UplusReader, UplusDriveManager
+sys.path.append("./hyundai_script/")
+import mmdet.datasets.hyundai_script.hyundai_config as cfg
+from mmdet.datasets.hyundai_script.hyundai_reader_manager import HyundaiReader, HyundaiDriveManager
 from typing import List, Union
 
 from mmdet.registry import DATASETS
@@ -10,10 +10,10 @@ from .base_det_dataset import BaseDetDataset
 
 
 @DATASETS.register_module()
-class UplusDataset(BaseDetDataset):
+class HyundaiDataset(BaseDetDataset):
     METAINFO = {
         'classes':
-            cfg.Datasets.Uplus.CATEGORIES_TO_ENG["major"],  # Define your classes
+            cfg.Datasets.Hyundai.CATEGORIES_TO_ENG["major"],  # Define your classes
         'palette': [(220, 20, 60), (0, 0, 142), (0, 0, 70), (0, 60, 100),
                     (0, 0, 230), (250, 170, 30), (119, 11, 32), (179, 0, 194),
                     (209, 99, 106), (5, 121, 0), (227, 255, 205),
@@ -21,19 +21,19 @@ class UplusDataset(BaseDetDataset):
     }
 
     def load_data_list(self) -> List[dict]:
-        dataset_cfg = cfg.Datasets.Uplus
+        dataset_cfg = cfg.Datasets.Hyundai
 
         data_list = []
 
         mode = self.data_prefix['img'].split('/')[-1]
 
         img_id = 1
-        drive_mngr = UplusDriveManager(self.data_root, mode)
+        drive_mngr = HyundaiDriveManager(self.data_root, mode)
         drive_paths = drive_mngr.get_drive_paths()
         for drive_path in drive_paths:
-            uplus_reader = UplusReader(drive_path, mode, dataset_cfg)
-            for idx in range(uplus_reader.num_frames()):
-                info_dict = {"img_id": img_id, "frame_index": idx, "reader": uplus_reader}
+            hyundai_reader = HyundaiReader(drive_path, mode, dataset_cfg)
+            for idx in range(hyundai_reader.num_frames()):
+                info_dict = {"img_id": img_id, "frame_index": idx, "reader": hyundai_reader}
                 parsed_data_info = self.parse_data_info(info_dict)
                 img_id += 1
                 data_list.append(parsed_data_info)
@@ -43,16 +43,16 @@ class UplusDataset(BaseDetDataset):
     def parse_data_info(self, raw_data_info: dict) -> Union[dict, List[dict]]:
         img_id = raw_data_info['img_id']
         idx = raw_data_info['frame_index']
-        uplus_reader = raw_data_info["reader"]
+        hyundai_reader = raw_data_info["reader"]
 
         data_info = {}
 
-        data_info['img_path'] = uplus_reader.frame_names[idx]
+        data_info['img_path'] = hyundai_reader.frame_names[idx]
         data_info['img_id'] = img_id
         data_info['seg_map_path'] = None
-        data_info['height'] = cfg.Datasets.Uplus.ORI_SHAPE[0]
-        data_info['width'] = cfg.Datasets.Uplus.ORI_SHAPE[1]
-        lane_data = uplus_reader.get_raw_lane_pts(idx)
+        data_info['height'] = cfg.Datasets.Hyundai.ORI_SHAPE[0]
+        data_info['width'] = cfg.Datasets.Hyundai.ORI_SHAPE[1]
+        lane_data = hyundai_reader.get_raw_lane_pts(idx)
         if len(lane_data) != 0:
             lanes = []
             for lane in lane_data[0]:
@@ -63,7 +63,7 @@ class UplusDataset(BaseDetDataset):
             data_info['lane_classes'] = lane_data[1]
 
         instances = []
-        bboxes, categories = uplus_reader.get_bboxes(idx)
+        bboxes, categories = hyundai_reader.get_bboxes(idx)
         for bbox_org, category_org in zip(bboxes, categories):
             instance = {}
             if category_org not in self.METAINFO["classes"]:
@@ -71,6 +71,7 @@ class UplusDataset(BaseDetDataset):
             category = self.cat2label(category_org)
 
             x1, y1, w, h = self.cycxhw2xywh(bbox_org[:4])
+            height = bbox_org[5]
             inter_w = max(0, min(x1 + w, data_info['width']) - max(x1, 0))
             inter_h = max(0, min(y1 + h, data_info['height']) - max(y1, 0))
             if inter_w * inter_h == 0:
@@ -81,6 +82,7 @@ class UplusDataset(BaseDetDataset):
 
             instance['bbox'] = bbox
             instance['bbox_label'] = category
+            instance['height'] = height
             instance['ignore_flag'] = 0
             instances.append(instance)
 
@@ -93,7 +95,3 @@ class UplusDataset(BaseDetDataset):
 
     def cat2label(self, category):
         return self.METAINFO["classes"].index(category)
-
-
-print("dataset:2", DATASETS)
-print("")

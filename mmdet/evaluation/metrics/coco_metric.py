@@ -239,6 +239,7 @@ class CocoMetric(BaseMetric):
                 data['image_id'] = image_id
                 data['bbox'] = self.xyxy2xywh(bboxes[i])
                 data['score'] = float(scores[i])
+                #####~
                 data['category_id'] = self.cat_ids[label]
                 bbox_json_results.append(data)
 
@@ -387,7 +388,7 @@ class CocoMetric(BaseMetric):
 
         Args:
             results (list): The processed results of each batch.
-9
+
         Returns:
             Dict[str, float]: The computed metrics. The keys are the names of
             the metrics, and the values are corresponding results.
@@ -417,7 +418,6 @@ class CocoMetric(BaseMetric):
                 cat_names=self.dataset_meta['classes'])
         if self.img_ids is None:
             self.img_ids = self._coco_api.get_img_ids()
-        pdb.set_trace()
         # convert predictions to coco format and dump to json file
         result_files = self.results2json(preds, outfile_prefix)
 
