@@ -93,7 +93,7 @@ PARAM_SCHEDULERS = Registry(
     locations=['mmdet.engine.schedulers'])
 # manage all kinds of metrics
 METRICS = Registry(
-    'metric', parent=MMENGINE_METRICS, locations=['mmdet.evaluation', 'mmdet_rilab.metric'])
+    'metric', parent=MMENGINE_METRICS, locations=['mmdet.evaluation', 'mmdet_rilab.evaluation'])
 # manage evaluator
 EVALUATOR = Registry(
     'evaluator', parent=MMENGINE_EVALUATOR, locations=['mmdet.evaluation'])
