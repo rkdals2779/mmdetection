@@ -198,7 +198,7 @@ def empty_instances(batch_img_metas: List[dict],
     return results_list
 
 
-def multi_apply(func, *args, **kwargs):
+def  multi_apply(func, *args, **kwargs):
     """Apply function to a list of arguments.
 
     Note:

@@ -164,7 +164,7 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         ann_file='annotations/instances_val2017.json',
-        data_prefix=dict(img='val2017/'),
+        data_prefix=dict(img='train2017/'),
         test_mode=True,
         pipeline=test_pipeline,
         backend_args=backend_args))

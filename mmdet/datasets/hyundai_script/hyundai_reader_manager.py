@@ -14,6 +14,7 @@ class HyundaiDriveManager():
 
     def list_drive_paths(self):
         dirlist = glob(op.join(self.datapath, '*'))
+        dirlist = [dir_ for dirs in dirlist for dir_ in glob(op.join(dirs, '*'))]
         dirlist = [directory for directory in dirlist if op.isdir(op.join(directory, "image"))]
         testset_file = op.join(self.datapath, 'test_set.txt')
 
@@ -65,7 +66,7 @@ class HyundaiReader():
     """
 
     def init_drive(self, drive_path):
-        frame_names = glob(op.join(drive_path, "image", "*.jpg"))
+        frame_names = glob(op.join(drive_path, "image", "*.png"))
         frame_names.sort()
         print("[HyundaiReader.init_drive] # frames:", len(frame_names), "first:", frame_names[0])
         return frame_names
@@ -81,14 +82,11 @@ class HyundaiReader():
         :return: bounding boxes in 'yxhw' format
         """
         image_file = self.frame_names[index]
-        label_file = image_file.replace("image", "label").replace(".jpg", ".txt")
-
+        label_file = image_file.replace("image", "label").replace(".png", ".txt")
         bboxes = []
         categories = []
         with open(label_file, 'r') as f:
-            lines = f.readlines()
-            split_line = lines.index("---\n")
-            bbox_lines = lines[:split_line]
+            bbox_lines = f.readlines()
             for line in bbox_lines:
                 bbox, category = self.extract_box(line)
                 if bbox is not None:
@@ -102,52 +100,14 @@ class HyundaiReader():
 
     def extract_box(self, line):
         raw_label = line.strip("\n").split(",")
-        category_name, y1, x1, h, w, depth = raw_label
+        category_name, y1, x1, h, w, height = raw_label
         if category_name not in self.dataset_cfg.CATEGORIES_TO_USE:
             return None, None
-        if category_name in self.dataset_cfg.CATEGORY_REMAP:
-            category_name = self.dataset_cfg.CATEGORY_REMAP[category_name]
-        if category_name == "Don't Care":
-            depth = 0
         y = int(float(h)) / 2 + int(float(y1))
         x = int(float(w)) / 2 + int(float(x1))
         h = int(float(h))
         w = int(float(w))
-        bbox = np.array([y, x, h, w, 1, depth], dtype=np.float32)
+        bbox = np.array([y, x, h, w, height], dtype=np.float32)
         return bbox, category_name
-
-    def get_raw_lane_pts(self, index):
-        image_file = self.frame_names[index]
-        label_file = image_file.replace("image", "label").replace(".jpg", ".txt")
-        with open(label_file, 'r') as f:
-            lines = f.readlines()
-            split_line = lines.index("---\n")
-            lane_lines = lines[split_line + 1:]
-            lanes_type = []
-            lanes_point = []
-            if len(lane_lines) != 0:
-                for lane in lane_lines:
-                    if (lane == "[\n") or (lane == "]") or (lane == "]\n"):
-                        continue
-                    lane_type, lane_point = self.extract_lane(lane)
-                    if lane_type is not None:
-                        lanes_type.append(lane_type)
-                        lanes_point.append(lane_point)
-            else:
-                return None, None
-        return lanes_point, lanes_type
-
-    def extract_lane(self, lane):
-        lane = eval(lane)
-        if isinstance(lane, tuple):
-            lane = lane[0]
-        if lane[0] not in self.dataset_cfg.LANE_TYPES:
-            return None, None
-        lane_type = self.dataset_cfg.LANE_REMAP[lane[0]]
-        lane_xy = np.array(lane[1:], dtype=np.float32)
-        # NOTE: labeler saves coords as (x, y) form, change form into (y, x)
-        lane_point = lane_xy[:, [1, 0]]
-        return lane_type, lane_point
-
 
 

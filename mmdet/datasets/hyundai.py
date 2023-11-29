@@ -13,7 +13,7 @@ from .base_det_dataset import BaseDetDataset
 class HyundaiDataset(BaseDetDataset):
     METAINFO = {
         'classes':
-            cfg.Datasets.Hyundai.CATEGORIES_TO_ENG["major"],  # Define your classes
+            cfg.Datasets.Hyundai.CATEGORIES_TO_USE,  # Define your classes
         'palette': [(220, 20, 60), (0, 0, 142), (0, 0, 70), (0, 60, 100),
                     (0, 0, 230), (250, 170, 30), (119, 11, 32), (179, 0, 194),
                     (209, 99, 106), (5, 121, 0), (227, 255, 205),
@@ -52,15 +52,6 @@ class HyundaiDataset(BaseDetDataset):
         data_info['seg_map_path'] = None
         data_info['height'] = cfg.Datasets.Hyundai.ORI_SHAPE[0]
         data_info['width'] = cfg.Datasets.Hyundai.ORI_SHAPE[1]
-        lane_data = hyundai_reader.get_raw_lane_pts(idx)
-        if len(lane_data) != 0:
-            lanes = []
-            for lane in lane_data[0]:
-                lane = np.array(lane)
-                lane = np.roll(lane, 1, axis=1) ## yx -> xy
-                lanes.append(lane)
-            data_info['lane'] = lanes
-            data_info['lane_classes'] = lane_data[1]
 
         instances = []
         bboxes, categories = hyundai_reader.get_bboxes(idx)
@@ -71,7 +62,7 @@ class HyundaiDataset(BaseDetDataset):
             category = self.cat2label(category_org)
 
             x1, y1, w, h = self.cycxhw2xywh(bbox_org[:4])
-            height = bbox_org[5]
+            height = bbox_org[4]
             inter_w = max(0, min(x1 + w, data_info['width']) - max(x1, 0))
             inter_h = max(0, min(y1 + h, data_info['height']) - max(y1, 0))
             if inter_w * inter_h == 0:

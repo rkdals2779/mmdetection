@@ -487,14 +487,36 @@ class YOLOXHead(BaseDenseHead):
         flatten_priors = torch.cat(mlvl_priors)
         flatten_bboxes = self._bbox_decode(flatten_priors, flatten_bbox_preds)
 
-        (pos_masks, cls_targets, obj_targets, bbox_targets, height_targets, l1_targets,
-         num_fg_imgs) = multi_apply(
-             self._get_targets_single,
-             flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
-             flatten_cls_preds.detach(), flatten_bboxes.detach(),
-             flatten_objectness.detach(), flatten_height.detach(),
-             batch_gt_instances, batch_img_metas,
-             batch_gt_instances_ignore)
+        # (pos_masks, cls_targets, obj_targets, bbox_targets, height_targets, l1_targets,
+        #  num_fg_imgs) = multi_apply(
+        #      self._get_targets_single,
+        #      flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
+        #      flatten_cls_preds.detach(), flatten_bboxes.detach(),
+        #      flatten_objectness.detach(), flatten_height.detach(),
+        #      batch_gt_instances, batch_img_metas,
+        #      batch_gt_instances_ignore)
+
+        #####
+        lists_7 = multi_apply(
+            self._get_targets_single,
+            flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
+            flatten_cls_preds.detach(), flatten_bboxes.detach(),
+            flatten_objectness.detach(), flatten_height.detach(),
+            batch_gt_instances, batch_img_metas,
+            batch_gt_instances_ignore)
+        pos_masks = lists_7[0]
+        cls_targets = lists_7[1]
+        obj_targets = lists_7[2]
+        bbox_targets = lists_7[3]
+        height_targets = [i.reshape(-1, 1) for i in lists_7[4]]
+        l1_targets = lists_7[5]
+        try:
+            num_fg_imgs = lists_7[6]
+        except:
+            num_fg_imgs = [i.shape[0] for i in height_targets]
+            print("num_fg_imgs: ", num_fg_imgs)
+
+        #####
 
         # The experimental results show that 'reduce_mean' can improve
         # performance on the COCO dataset.
@@ -632,7 +654,7 @@ class YOLOXHead(BaseDenseHead):
         obj_target[pos_inds] = 1
         bbox_target = sampling_result.pos_gt_bboxes
         height_target = gt_instances["heights"][sampling_result.pos_assigned_gt_inds]
-        height_target = height_target.unsqueeze(-1)
+        height_target = height_target.reshape(-1, 1)
         l1_target = cls_preds.new_zeros((num_pos_per_img, 4))
         if self.use_l1:
             l1_target = self._get_l1_target(l1_target, bbox_target,

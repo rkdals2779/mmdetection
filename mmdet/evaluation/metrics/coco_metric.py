@@ -18,9 +18,6 @@ from mmdet.registry import METRICS
 from mmdet.structures.mask import encode_mask_results
 from ..functional import eval_recalls
 
-from mmdet.utils.rilab.io_logger import IOLogger
-
-import pdb
 
 @METRICS.register_module()
 class CocoMetric(BaseMetric):
@@ -376,10 +373,10 @@ class CocoMetric(BaseMetric):
             gt['img_id'] = data_sample['img_id']
             if self._coco_api is None:
                 # TODO: Need to refactor to support LoadAnnotations
-                assert 'instances' in data_sample, \
+                assert 'gt_instances' in data_sample, \
                     'ground truth is required for evaluation when ' \
                     '`ann_file` is not provided'
-                gt['anns'] = data_sample['instances']
+                gt['anns'] = data_sample['gt_instances']
             # add converted result to the results list
             self.results.append((gt, result))
 
@@ -425,7 +422,6 @@ class CocoMetric(BaseMetric):
         if self.format_only:
             logger.info('results are saved in '
                         f'{osp.dirname(outfile_prefix)}')
-            IOLogger("CocoMetric.compute_metrics").log_var("if self.format_only: eval_results", eval_results)
             return eval_results
 
         for metric in self.metrics:
@@ -591,5 +587,4 @@ class CocoMetric(BaseMetric):
 
         if tmp_dir is not None:
             tmp_dir.cleanup()
-        IOLogger("CocoMetric.compute_metrics").log_var("eval_results", eval_results)
         return eval_results

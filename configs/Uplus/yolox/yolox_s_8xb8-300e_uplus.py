@@ -170,7 +170,7 @@ val_dataloader = dict(
 test_dataloader = val_dataloader
 
 val_evaluator = dict(
-    type='CocoMetric',
+    type='DetectionEval',
     ann_file='/media/falcon/IanBook8T/datasets/coco/annotations/instances_val2017.json',
     metric='bbox',
     backend_args=backend_args)

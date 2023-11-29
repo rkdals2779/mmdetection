@@ -410,7 +410,7 @@ class LoadAnnotations(MMCV_LoadAnnotations):
             self._load_seg_map(results)
 
         #####
-        if 'height' in results['instances'][0].keys():
+        if results.get('gt_heights', None) is not None:
             self._load_heights(results)
         return results
 

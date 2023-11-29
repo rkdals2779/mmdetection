@@ -71,7 +71,7 @@ model = dict(
 
 # dataset settings
 dataset_type = 'HyundaiDataset'
-data_root = '/media/falcon/IanBook8T/datasets/uplus22_sample/'
+data_root = '/media/falcon/IanBook8T/datasets/mini_hyd/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
@@ -169,7 +169,7 @@ val_dataloader = dict(
 test_dataloader = val_dataloader
 
 val_evaluator = dict(
-    type='CocoMetric',
+    type='DetectionEval',
     metric='bbox',
     backend_args=backend_args)
 test_evaluator = val_evaluator

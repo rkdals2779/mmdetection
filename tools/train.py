@@ -11,16 +11,16 @@ from mmengine.registry import RUNNERS
 from mmengine.runner import Runner
 
 from mmdet.utils import setup_cache_size_limit_of_dynamo
+import mmdet_rilab
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     # parser.add_argument('config', help='train config file path')
-    #####~
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
-
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
     parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py")
+    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/yolox/yolox_s_8xb8-300e_coco.py")
 
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
