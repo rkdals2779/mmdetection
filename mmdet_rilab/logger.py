@@ -2,8 +2,10 @@ import pandas as pd
 import os
 import statistics
 import torch
+import mmdet_rilab.config as cfg
 
 from collections import defaultdict
+from datetime import datetime
 
 
 class HistoryLogger:
@@ -17,7 +19,7 @@ class HistoryLogger:
         self.count_epoch_and_save = count_epoch_and_save
         self.save_csv = save_csv
         self.steps_per_epoch = 405
-        self.file = '/home/falcon/shin_work/Datacleaning/history_log/history_log.csv'
+        self.file = cfg.PROJECT_ROOT + '/history_log/' + f'{datetime.now().time()}' +'history_log.csv'
 
     def __call__(self, func):
         def wrapper(*args, **kwargs):

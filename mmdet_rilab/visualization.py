@@ -1,12 +1,13 @@
 import numpy as np
 import cv2
 import os.path as op
+import mmdet_rilab.config as cfg
 
 
 class Visualizer:
     def __init__(self):
         self.classes = ['bump', 'manhole', 'steel', 'pothole']
-        self.save_path = "/home/falcon/shin_work/MMdetectionHyundai/visual_log"
+        self.save_path = cfg.PROJECT_ROOT + "/visual_log"
 
     def __call__(self, img_name, splits):
         gt_image = cv2.imread(img_name)

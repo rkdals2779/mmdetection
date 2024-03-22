@@ -319,6 +319,7 @@ class YOLOXHead(BaseDenseHead):
         flatten_objectness = torch.cat(flatten_objectness, dim=1).sigmoid()
         # flatten_height = torch.cat(flatten_height, dim=1)
         flatten_height = torch.cat(flatten_height, dim=1).sigmoid() * 0.4 - 0.2
+        flatten_height = torch.gather(flatten_height, 2, torch.argmax(flatten_cls_scores, 2).unsqueeze(2)).squeeze(-1)
         flatten_priors = torch.cat(mlvl_priors)
 
         flatten_bboxes = self._bbox_decode(flatten_priors, flatten_bbox_preds)
@@ -612,8 +613,9 @@ class YOLOXHead(BaseDenseHead):
             obj_target = cls_preds.new_zeros((num_priors, 1))
             foreground_mask = cls_preds.new_zeros(num_priors).bool()
             height_target = cls_preds.new_zeros((0, 1))
+            onehot_for_height = cls_preds.new_zeros((0, self.num_classes))
             return (foreground_mask, cls_target, obj_target, bbox_target, height_target,
-                    l1_target, 0)
+                    l1_target, 0, onehot_for_height)
         # YOLOX uses center priors with 0.5 offset to assign targets,
         # but use center priors without offset to regress bboxes.
         offset_priors = torch.cat(

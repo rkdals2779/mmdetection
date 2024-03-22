@@ -1,0 +1,1 @@
+PROJECT_ROOT = "/home/falcon/shin_work/MMdetectionHyundai"
