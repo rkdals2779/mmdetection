@@ -251,11 +251,13 @@ class LoadAnnotations(MMCV_LoadAnnotations):
                  with_mask: bool = False,
                  poly2mask: bool = True,
                  box_type: str = 'hbox',
+                 with_height: bool = False,
                  **kwargs) -> None:
         super(LoadAnnotations, self).__init__(**kwargs)
         self.with_mask = with_mask
         self.poly2mask = poly2mask
         self.box_type = box_type
+        self.with_height = with_height
 
     def _load_bboxes(self, results: dict) -> None:
         """Private function to load bounding box annotations.
@@ -410,7 +412,7 @@ class LoadAnnotations(MMCV_LoadAnnotations):
             self._load_seg_map(results)
 
         #####
-        if results.get('gt_heights', None) is not None:
+        if self.with_height:
             self._load_heights(results)
         return results
 

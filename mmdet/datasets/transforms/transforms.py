@@ -168,9 +168,6 @@ class Resize(MMCV_Resize):
         self._resize_masks(results)
         self._resize_seg(results)
         self._record_homography_matrix(results)
-        #####
-        self._resize_lane(results)
-        #####
         return results
 
     def __repr__(self) -> str:
@@ -3769,4 +3766,48 @@ class CachedMixUp(BaseTransform):
         repr_str += f'max_cached_images={self.max_cached_images}, '
         repr_str += f'random_pop={self.random_pop}, '
         repr_str += f'prob={self.prob})'
+        return repr_str
+
+
+@TRANSFORMS.register_module()
+class Crop(BaseTransform):
+    """Crop images & bbox & seg.
+        crop_tlbr: crop sizes from top left bottom right
+    """
+
+    def __init__(self, crop_tlbr):
+        self.crop_tlbr = crop_tlbr
+
+    def _crop_img(self, results: dict) -> None:
+        """Resize bounding boxes with ``results['scale_factor']``."""
+        if results.get('img', None) is not None:
+            tlbr = self.crop_tlbr
+            results['img'] = results['img'][tlbr[0]:tlbr[2], tlbr[1]:tlbr[3]]
+            results['img_shape'] = results['img'].shape[:2]
+
+    def _crop_bboxes(self, results: dict) -> None:
+        """Resize bounding boxes with ``results['scale_factor']``."""
+        if results.get('gt_bboxes', None) is not None:
+            results['gt_bboxes'].translate_([-self.crop_tlbr[1], -self.crop_tlbr[0]])
+            results['gt_bboxes'].clip_(results['img_shape'])
+            valid_inds = results['gt_bboxes'].is_inside(results['img_shape']).numpy()
+            results['gt_bboxes'] = results['gt_bboxes'][valid_inds]
+            if results.get('gt_bboxes_labels', None) is not None:
+                results['gt_bboxes_labels'] = results['gt_bboxes_labels'][valid_inds]
+            if results.get('gt_heights', None) is not None:
+                results['gt_heights'] = results['gt_heights'][valid_inds]
+            if results.get('gt_ignore_flags', None) is not None:
+                results['gt_ignore_flags'] = results['gt_ignore_flags'][valid_inds]
+
+    @autocast_box_type()
+    def transform(self, results: dict) -> dict:
+        """Transform function to crop images and bounding boxes
+        """
+        self._crop_img(results)
+        self._crop_bboxes(results)
+        return results
+
+    def __repr__(self) -> str:
+        repr_str = self.__class__.__name__
+        repr_str += f'(crop_tlbr={self.crop_tlbr})'
         return repr_str

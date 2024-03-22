@@ -13,7 +13,7 @@ class IOLogger:
     def __init__(self, call_stack='', count_step=False):
         self.call_stack = call_stack
         self.count_step = count_step
-        self.file = '/home/falcon/shin_workspace/Datacleaning/log/io_log'
+        self.file = '/home/falcon/shin_work/MMdetectionHyundai/log/io_log'
         if count_step:
             with open(self.file, 'w') as f:
                 f.write('')

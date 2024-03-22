@@ -3,6 +3,7 @@ import math
 import pdb
 from typing import List, Optional, Sequence, Tuple, Union
 
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -21,6 +22,8 @@ from ..task_modules.prior_generators import MlvlPointGenerator
 from ..task_modules.samplers import PseudoSampler
 from ..utils import multi_apply
 from .base_dense_head import BaseDenseHead
+
+from mmdet_rilab.logger import HistoryLogger
 
 
 
@@ -191,7 +194,7 @@ class YOLOXHead(BaseDenseHead):
         conv_cls = nn.Conv2d(self.feat_channels, self.cls_out_channels, 1)
         conv_reg = nn.Conv2d(self.feat_channels, 4, 1)
         conv_obj = nn.Conv2d(self.feat_channels, 1, 1)
-        conv_hgt = nn.Conv2d(self.feat_channels, 1, 1)
+        conv_hgt = nn.Conv2d(self.feat_channels, self.num_classes, 1)
         return conv_cls, conv_reg, conv_obj, conv_hgt
 
     def init_weights(self) -> None:
@@ -314,7 +317,8 @@ class YOLOXHead(BaseDenseHead):
         flatten_cls_scores = torch.cat(flatten_cls_scores, dim=1).sigmoid()
         flatten_bbox_preds = torch.cat(flatten_bbox_preds, dim=1)
         flatten_objectness = torch.cat(flatten_objectness, dim=1).sigmoid()
-        flatten_height = torch.cat(flatten_height, dim=1)
+        # flatten_height = torch.cat(flatten_height, dim=1)
+        flatten_height = torch.cat(flatten_height, dim=1).sigmoid() * 0.4 - 0.2
         flatten_priors = torch.cat(mlvl_priors)
 
         flatten_bboxes = self._bbox_decode(flatten_priors, flatten_bbox_preds)
@@ -326,8 +330,7 @@ class YOLOXHead(BaseDenseHead):
                 img_id] * max_scores >= cfg.score_thr
             results = InstanceData(
                 bboxes=flatten_bboxes[img_id][valid_mask],
-                scores=max_scores[valid_mask] *
-                flatten_objectness[img_id][valid_mask],
+                scores=max_scores[valid_mask] * flatten_objectness[img_id][valid_mask],
                 labels=labels[valid_mask],
                 heights=flatten_height[img_id][valid_mask])
 
@@ -416,7 +419,7 @@ class YOLOXHead(BaseDenseHead):
             results.scores = det_bboxes[:, -1]
         return results
 
-    # @IOLogger("YOLOXHead")
+    @HistoryLogger(count_step=True)
     def loss_by_feat(
             self,
             cls_scores: Sequence[Tensor],
@@ -476,47 +479,26 @@ class YOLOXHead(BaseDenseHead):
             for objectness in objectnesses
         ]
         flatten_height = [
-            height.permute(0, 2, 3, 1).reshape(num_imgs, -1)
+            height.permute(0, 2, 3, 1).reshape(num_imgs, -1,
+                                               self.num_classes)
             for height in heights
         ]
         flatten_cls_preds = torch.cat(flatten_cls_preds, dim=1)
         flatten_bbox_preds = torch.cat(flatten_bbox_preds, dim=1)
         flatten_objectness = torch.cat(flatten_objectness, dim=1)
-        flatten_height = torch.cat(flatten_height, dim=1)
+        flatten_height = torch.cat(flatten_height, dim=1).sigmoid() * 0.4 - 0.2
 
         flatten_priors = torch.cat(mlvl_priors)
         flatten_bboxes = self._bbox_decode(flatten_priors, flatten_bbox_preds)
 
-        # (pos_masks, cls_targets, obj_targets, bbox_targets, height_targets, l1_targets,
-        #  num_fg_imgs) = multi_apply(
-        #      self._get_targets_single,
-        #      flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
-        #      flatten_cls_preds.detach(), flatten_bboxes.detach(),
-        #      flatten_objectness.detach(), flatten_height.detach(),
-        #      batch_gt_instances, batch_img_metas,
-        #      batch_gt_instances_ignore)
-
-        #####
-        lists_7 = multi_apply(
-            self._get_targets_single,
-            flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
-            flatten_cls_preds.detach(), flatten_bboxes.detach(),
-            flatten_objectness.detach(), flatten_height.detach(),
-            batch_gt_instances, batch_img_metas,
-            batch_gt_instances_ignore)
-        pos_masks = lists_7[0]
-        cls_targets = lists_7[1]
-        obj_targets = lists_7[2]
-        bbox_targets = lists_7[3]
-        height_targets = [i.reshape(-1, 1) for i in lists_7[4]]
-        l1_targets = lists_7[5]
-        try:
-            num_fg_imgs = lists_7[6]
-        except:
-            num_fg_imgs = [i.shape[0] for i in height_targets]
-            print("num_fg_imgs: ", num_fg_imgs)
-
-        #####
+        (pos_masks, cls_targets, obj_targets, bbox_targets, height_targets, l1_targets,
+         num_fg_imgs, onehot_for_height) = multi_apply(
+             self._get_targets_single,
+             flatten_priors.unsqueeze(0).repeat(num_imgs, 1, 1),
+             flatten_cls_preds.detach(), flatten_bboxes.detach(),
+             flatten_objectness.detach(), flatten_height.detach(),
+             batch_gt_instances, batch_img_metas,
+             batch_gt_instances_ignore)
 
         # The experimental results show that 'reduce_mean' can improve
         # performance on the COCO dataset.
@@ -531,11 +513,15 @@ class YOLOXHead(BaseDenseHead):
         obj_targets = torch.cat(obj_targets, 0)
         bbox_targets = torch.cat(bbox_targets, 0)
         height_targets = torch.cat(height_targets, 0)
+        pred_height = flatten_height.view(-1, 4)[pos_masks] * torch.cat(onehot_for_height, 0)
+        pred_height = torch.sum(pred_height, 1).unsqueeze(-1)
+
         if self.use_l1:
             l1_targets = torch.cat(l1_targets, 0)
 
         loss_obj = self.loss_obj(flatten_objectness.view(-1, 1),
                                  obj_targets) / num_total_samples
+
         if num_pos > 0:
             loss_cls = self.loss_cls(
                 flatten_cls_preds.view(-1, self.num_classes)[pos_masks],
@@ -544,7 +530,7 @@ class YOLOXHead(BaseDenseHead):
                 flatten_bboxes.view(-1, 4)[pos_masks],
                 bbox_targets) / num_total_samples
             loss_hgt = self.loss_hgt(
-                flatten_height.view(-1, 1)[pos_masks],
+                pred_height,
                 height_targets) / num_total_samples
 
         else:
@@ -571,7 +557,6 @@ class YOLOXHead(BaseDenseHead):
                 # https://github.com/open-mmlab/mmdetection/issues/7298
                 loss_l1 = flatten_bbox_preds.sum() * 0
             loss_dict.update(loss_l1=loss_l1)
-
         return loss_dict
 
     @torch.no_grad()
@@ -626,7 +611,8 @@ class YOLOXHead(BaseDenseHead):
             l1_target = cls_preds.new_zeros((0, 4))
             obj_target = cls_preds.new_zeros((num_priors, 1))
             foreground_mask = cls_preds.new_zeros(num_priors).bool()
-            return (foreground_mask, cls_target, obj_target, bbox_target,
+            height_target = cls_preds.new_zeros((0, 1))
+            return (foreground_mask, cls_target, obj_target, bbox_target, height_target,
                     l1_target, 0)
         # YOLOX uses center priors with 0.5 offset to assign targets,
         # but use center priors without offset to regress bboxes.
@@ -655,6 +641,8 @@ class YOLOXHead(BaseDenseHead):
         bbox_target = sampling_result.pos_gt_bboxes
         height_target = gt_instances["heights"][sampling_result.pos_assigned_gt_inds]
         height_target = height_target.reshape(-1, 1)
+        onehot_for_height = F.one_hot(sampling_result.pos_gt_labels, self.num_classes)
+
         l1_target = cls_preds.new_zeros((num_pos_per_img, 4))
         if self.use_l1:
             l1_target = self._get_l1_target(l1_target, bbox_target,
@@ -663,7 +651,7 @@ class YOLOXHead(BaseDenseHead):
         foreground_mask[pos_inds] = 1
 
         return (foreground_mask, cls_target, obj_target, bbox_target, height_target,
-                l1_target, num_pos_per_img)
+                l1_target, num_pos_per_img, onehot_for_height)
 
     def _get_l1_target(self,
                        l1_target: Tensor,

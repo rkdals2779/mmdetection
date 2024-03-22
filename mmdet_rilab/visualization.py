@@ -6,7 +6,7 @@ import os.path as op
 class Visualizer:
     def __init__(self):
         self.classes = ['bump', 'manhole', 'steel', 'pothole']
-        self.save_path = "/home/falcon/shin_workspace/Datacleaning/visual_log"
+        self.save_path = "/home/falcon/shin_work/MMdetectionHyundai/visual_log"
 
     def __call__(self, img_name, splits):
         gt_image = cv2.imread(img_name)
@@ -29,7 +29,7 @@ class Visualizer:
         image = np.vstack([gt_image, pred_image])
         cv2.imshow("image", image)
         cv2.imwrite(op.join(self.save_path, (img_name.split('/')[-3] + "_" + img_name.split('/')[-1])), image)
-        cv2.waitKey(10)
+        cv2.waitKey(0)
 
     def draw_bboxes(self, image, tpfpfn, color, gtpr):
         if gtpr == "gt":

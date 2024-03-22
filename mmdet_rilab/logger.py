@@ -17,7 +17,7 @@ class HistoryLogger:
         self.count_epoch_and_save = count_epoch_and_save
         self.save_csv = save_csv
         self.steps_per_epoch = 405
-        self.file = '/home/falcon/shin_workspace/Datacleaning/history_log/history_log.csv'
+        self.file = '/home/falcon/shin_work/Datacleaning/history_log/history_log.csv'
 
     def __call__(self, func):
         def wrapper(*args, **kwargs):

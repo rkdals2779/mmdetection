@@ -6,8 +6,8 @@ import cv2
 
 class HyundaiReader:
     def __init__(self, data_path, split):
-        self.frame_names = self.init_drive(data_path)
         self.split = split
+        self.frame_names = self.init_drive(data_path)
 
     def init_drive(self, data_path):
         drive_paths = glob(op.join(data_path, self.split, 'image'), recursive=True)

@@ -37,7 +37,7 @@ class BDD100KDataset(BaseDetDataset):
                 raw_ann_info
             })
             if asd:
-                IOLogger("BDD100KDataset.load_data_list").log_var("raw_ann_info", raw_ann_info)
+                IOLogger("BDD100KDataset.load_data_list").log_var("raw_ann_info", raw_ann_info, )
                 IOLogger("BDD100KDataset.load_data_list").log_var("parsed_data_info", parsed_data_info)
                 asd = False
             data_list.append(parsed_data_info)

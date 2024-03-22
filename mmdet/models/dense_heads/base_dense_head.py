@@ -199,8 +199,6 @@ class BaseDenseHead(BaseModule, metaclass=ABCMeta):
 
         predictions = self.predict_by_feat(
             *outs, batch_img_metas=batch_img_metas, rescale=rescale)
-        print("predict=========")
-        # pdb.set_trace()
         return predictions
 
     def predict_by_feat(self,

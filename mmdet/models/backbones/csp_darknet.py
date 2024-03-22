@@ -278,7 +278,6 @@ class CSPDarknet(BaseModule):
                 if isinstance(m, _BatchNorm):
                     m.eval()
 
-    # @IOLogger("CSPDarknet")
     def forward(self, x):
         outs = []
         for i, layer_name in enumerate(self.layers):

@@ -17,11 +17,21 @@ import mmdet_rilab
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     # parser.add_argument('config', help='train config file path')
-    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
-    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
-    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py")
-    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_workspace/Datacleaning/mmdetection/configs/yolox/yolox_s_8xb8-300e_coco.py")
-
+    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
+    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
+    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_m_8xb8-300e_hyundai.py")
+    # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/yolox/yolox_s_8xb8-300e_coco.py")
+    parser.add_argument(
+        '--resume',
+        help='If specify checkpoint path, resume from it, while if not '
+             'specify, try to auto resume from the latest checkpoint '
+             'in the work directory.')
+    # parser.add_argument(
+    #     '--resume',
+    #     help='If specify checkpoint path, resume from it, while if not '
+    #          'specify, try to auto resume from the latest checkpoint '
+    #          'in the work directory.',
+    #     default="/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/epoch_170.pth")
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--amp',
@@ -32,14 +42,14 @@ def parse_args():
         '--auto-scale-lr',
         action='store_true',
         help='enable automatically scaling LR.')
-    parser.add_argument(
-        '--resume',
-        nargs='?',
-        type=str,
-        const='auto',
-        help='If specify checkpoint path, resume from it, while if not '
-        'specify, try to auto resume from the latest checkpoint '
-        'in the work directory.')
+    # parser.add_argument(
+    #     '--resume',
+    #     nargs='?',
+    #     type=str,
+    #     const='auto',
+    #     help='If specify checkpoint path, resume from it, while if not '
+    #     'specify, try to auto resume from the latest checkpoint '
+    #     'in the work directory.')
     parser.add_argument(
         '--cfg-options',
         nargs='+',
@@ -128,6 +138,14 @@ def main():
     if 'runner_type' not in cfg:
         # build the default runner
         runner = Runner.from_cfg(cfg)
+        ##
+        # runner.save_checkpoint()
+        # import torch
+        #
+        # bar = torch.load('/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/epoch_170.pth')
+        # print(bar)
+        # exit()
+        ##
     else:
         # build customized runner from the registry
         # if 'runner_type' is set in the cfg

@@ -3,7 +3,7 @@ _base_ = [
     './yolox_tta.py'
 ]
 
-img_scale = (640, 640)  # width, height
+img_scale = (1088, 448)  # width, height
 
 # model settings
 model = dict(
@@ -14,7 +14,7 @@ model = dict(
         batch_augments=[
             dict(
                 type='BatchSyncRandomResize',
-                random_size_range=(480, 800),
+                random_size_range=(320, 640),
                 size_divisor=32,
                 interval=10)
         ]),
@@ -39,7 +39,7 @@ model = dict(
         act_cfg=dict(type='Swish')),
     bbox_head=dict(
         type='YOLOXHead',
-        num_classes=13,
+        num_classes=4,
         in_channels=128,
         feat_channels=128,
         stacked_convs=2,
@@ -63,15 +63,19 @@ model = dict(
             use_sigmoid=True,
             reduction='sum',
             loss_weight=1.0),
+        loss_hgt=dict(
+            type='SmoothL1Loss',
+            reduction='sum',
+            loss_weight=1.0),
         loss_l1=dict(type='L1Loss', reduction='sum', loss_weight=1.0)),
     train_cfg=dict(assigner=dict(type='SimOTAAssigner', center_radius=2.5)),
     # In order to align the source code, the threshold of the val phase is
     # 0.01, and the threshold of the test phase is 0.001.
-    test_cfg=dict(score_thr=0.01, nms=dict(type='nms', iou_threshold=0.65)))
+    test_cfg=dict(score_thr=0.3, nms=dict(type='nms', iou_threshold=0.5)))
 
 # dataset settings
 dataset_type = 'HyundaiDataset'
-data_root = '/media/falcon/IanBook8T/datasets/mini_hyd/'
+data_root = '/media/falcon/50fe2d19-4535-4db4-85fb-6970f063a4a11/ActiveDrive/HYD_2023/hyundai_v3_FINAL/'
 
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
@@ -127,7 +131,8 @@ train_dataset = dict(
         data_prefix=dict(img='train'),
         pipeline=[
             dict(type='LoadImageFromFile', backend_args=backend_args),
-            dict(type='LoadAnnotations', with_bbox=True)
+            dict(type='LoadAnnotations', with_bbox=True, with_height=True),
+            dict(type='Crop', crop_tlbr=[528, 144, 1200, 1776]),
         ],
         filter_cfg=dict(filter_empty_gt=False, min_size=32),
         backend_args=backend_args),
@@ -140,7 +145,7 @@ test_pipeline = [
         type='Pad',
         pad_to_square=True,
         pad_val=dict(img=(114.0, 114.0, 114.0))),
-    dict(type='LoadAnnotations', with_bbox=True),
+    dict(type='LoadAnnotations', with_bbox=True, with_height=True),
     dict(
         type='PackDetInputs',
         meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
@@ -154,7 +159,7 @@ train_dataloader = dict(
     sampler=dict(type='DefaultSampler', shuffle=True),
     dataset=train_dataset)
 val_dataloader = dict(
-    batch_size=8,
+    batch_size=1,
     num_workers=4,
     persistent_workers=True,
     drop_last=False,
@@ -171,6 +176,8 @@ test_dataloader = val_dataloader
 val_evaluator = dict(
     type='DetectionEval',
     metric='bbox',
+    iou_thresh=0.5,
+    num_category=4,
     backend_args=backend_args)
 test_evaluator = val_evaluator
 
