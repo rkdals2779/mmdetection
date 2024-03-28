@@ -3,7 +3,6 @@ from typing import List, Optional
 
 from mmengine.structures import BaseDataElement, InstanceData, PixelData
 
-from mmdet.utils.rilab.io_logger import IOLogger
 
 class DetDataSample(BaseDataElement):
     """A data structure interface of MMDetection. They are used as interfaces

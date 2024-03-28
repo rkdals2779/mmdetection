@@ -20,7 +20,6 @@ from ..test_time_augs import merge_aug_results
 from ..utils import (filter_scores_and_topk, select_single_mlvl,
                      unpack_gt_instances)
 
-from mmdet.utils.rilab.io_logger import IOLogger
 
 class BaseDenseHead(BaseModule, metaclass=ABCMeta):
     """Base class for DenseHeads.

@@ -11,7 +11,6 @@ from torch import Tensor, nn
 from .detr_layers import (DetrTransformerDecoder, DetrTransformerDecoderLayer,
                           DetrTransformerEncoder, DetrTransformerEncoderLayer)
 from .utils import inverse_sigmoid
-from mmdet.utils.rilab.io_logger import IOLogger
 
 
 class DeformableDetrTransformerEncoder(DetrTransformerEncoder):
@@ -25,7 +24,6 @@ class DeformableDetrTransformerEncoder(DetrTransformerEncoder):
         ])
         self.embed_dims = self.layers[0].embed_dims
 
-    @IOLogger("DeformableDETR.forward_encoder->DeformableDetrTransformerEncoder")
     def forward(self, query: Tensor, query_pos: Tensor,
                 key_padding_mask: Tensor, spatial_shapes: Tensor,
                 level_start_index: Tensor, valid_ratios: Tensor,

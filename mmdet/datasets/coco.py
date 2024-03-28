@@ -9,8 +9,6 @@ from mmdet.registry import DATASETS
 from .api_wrappers import COCO
 from .base_det_dataset import BaseDetDataset
 
-from mmdet.utils.rilab.io_logger import IOLogger
-
 
 @DATASETS.register_module()
 class CocoDataset(BaseDetDataset):

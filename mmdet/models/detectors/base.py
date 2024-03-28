@@ -9,7 +9,6 @@ from torch import Tensor
 from mmdet.structures import DetDataSample, OptSampleList, SampleList
 from mmdet.utils import InstanceList, OptConfigType, OptMultiConfig
 from ..utils import samplelist_boxtype2tensor
-from mmdet.utils.rilab.io_logger import IOLogger
 
 ForwardResults = Union[Dict[str, torch.Tensor], List[DetDataSample],
                        Tuple[torch.Tensor], torch.Tensor]

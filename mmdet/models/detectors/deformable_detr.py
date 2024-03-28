@@ -15,7 +15,6 @@ from mmdet.utils import OptConfigType
 from ..layers import (DeformableDetrTransformerDecoder,
                       DeformableDetrTransformerEncoder, SinePositionalEncoding)
 from .base_detr import DetectionTransformer
-from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()
@@ -117,7 +116,6 @@ class DeformableDETR(DetectionTransformer):
                 self.reference_points_fc, distribution='uniform', bias=0.)
         normal_(self.level_embed)
 
-    @IOLogger('DINO.forward->DeformableDETR')
     def pre_transformer(
             self,
             mlvl_feats: Tuple[Tensor],
@@ -148,8 +146,6 @@ class DeformableDETR(DetectionTransformer):
             - decoder_inputs_dict (dict): The keyword args dictionary of
               `self.forward_decoder()`, which includes 'memory_mask'.
         """
-        IOLogger("DeformableDETR.pre_transformer").log_var("mlvl_feats", mlvl_feats)
-        IOLogger("DeformableDETR.pre_transformer").log_var("mlvl_feats[-1]", mlvl_feats[-1])
         batch_size = mlvl_feats[0].size(0)
 
         # construct binary masks for the transformer.
@@ -243,7 +239,6 @@ class DeformableDETR(DetectionTransformer):
 
         return encoder_inputs_dict, decoder_inputs_dict
 
-    @IOLogger('DINO.forward->DeformableDETR')
     def forward_encoder(self, feat: Tensor, feat_mask: Tensor,
                         feat_pos: Tensor, spatial_shapes: Tensor,
                         level_start_index: Tensor,
@@ -334,8 +329,6 @@ class DeformableDETR(DetectionTransformer):
                 self.decoder.num_layers](output_memory) + output_proposals
             enc_outputs_coord = enc_outputs_coord_unact.sigmoid()
 
-            IOLogger("DeformableDETR").log_var("enc_outputs_class", enc_outputs_class)
-            IOLogger("DeformableDETR").log_var("enc_outputs_coord_unact", enc_outputs_coord_unact)
             # We only use the first channel in enc_outputs_class as foreground,
             # the other (num_classes - 1) channels are actually not used.
             # Its targets are set to be 0s, which indicates the first

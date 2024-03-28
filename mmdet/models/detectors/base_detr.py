@@ -8,7 +8,6 @@ from mmdet.registry import MODELS
 from mmdet.structures import OptSampleList, SampleList
 from mmdet.utils import ConfigType, OptConfigType, OptMultiConfig
 from .base import BaseDetector
-from mmdet.utils.rilab.io_logger import IOLogger
 
 
 @MODELS.register_module()
@@ -82,7 +81,6 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         """Initialize layers except for backbone, neck and bbox_head."""
         pass
 
-    @IOLogger("(base_detr)DetectionTransformer")
     def loss(self, batch_inputs: Tensor,
              batch_data_samples: SampleList) -> Union[dict, list]:
         """Calculate losses from a batch of inputs and data samples.
@@ -166,7 +164,6 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         results = self.bbox_head.forward(**head_inputs_dict)
         return results
 
-    @IOLogger("base_detr")
     def forward_transformer(self,
                             img_feats: Tuple[Tensor],
                             batch_data_samples: OptSampleList = None) -> Dict:
@@ -227,7 +224,6 @@ class DetectionTransformer(BaseDetector, metaclass=ABCMeta):
         head_inputs_dict.update(decoder_outputs_dict)
         return head_inputs_dict
 
-    @IOLogger("base_detr")
     def extract_feat(self, batch_inputs: Tensor) -> Tuple[Tensor]:
         """Extract features.
 

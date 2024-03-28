@@ -311,7 +311,8 @@ class YOLOXHead(BaseDenseHead):
             for objectness in objectnesses
         ]
         flatten_height = [
-            height.permute(0, 2, 3, 1).reshape(num_imgs, -1)
+            height.permute(0, 2, 3, 1).reshape(num_imgs, -1,
+                                                  self.num_classes)
             for height in heights
         ]
         flatten_cls_scores = torch.cat(flatten_cls_scores, dim=1).sigmoid()

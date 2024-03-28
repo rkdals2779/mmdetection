@@ -30,7 +30,7 @@ class Visualizer:
         image = np.vstack([gt_image, pred_image])
         cv2.imshow("image", image)
         cv2.imwrite(op.join(self.save_path, (img_name.split('/')[-3] + "_" + img_name.split('/')[-1])), image)
-        cv2.waitKey(0)
+        cv2.waitKey(1)
 
     def draw_bboxes(self, image, tpfpfn, color, gtpr):
         if gtpr == "gt":

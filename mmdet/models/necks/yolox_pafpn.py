@@ -9,8 +9,6 @@ from mmengine.model import BaseModule
 from mmdet.registry import MODELS
 from ..layers import CSPLayer
 
-from mmdet.utils.rilab.io_logger import IOLogger
-
 
 @MODELS.register_module()
 class YOLOXPAFPN(BaseModule):

@@ -6,7 +6,6 @@ from mmcv.ops import sigmoid_focal_loss as _sigmoid_focal_loss
 
 from mmdet.registry import MODELS
 from .utils import weight_reduce_loss
-from mmdet.utils.rilab.io_logger import IOLogger
 
 
 # This method is only for debugging
