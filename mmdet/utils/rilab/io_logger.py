@@ -14,26 +14,27 @@ class IOLogger:
         self.call_stack = call_stack
         self.count_step = count_step
         self.file = '/home/falcon/shin_work/MMdetectionHyundai/log/io_log'
-        if count_step:
-            with open(self.file, 'w') as f:
-                f.write('')
+        # if count_step:
+        #     with open(self.file, 'w') as f:
+        #         f.write('')
 
     def __call__(self, func):
-        def wrapper(*args, **kwargs):
-            if self.count_step:
-                IOLogger.STEP_INDEX += 1
-                print("\n\n#################### STEP:", IOLogger.STEP_INDEX)
-                self.fprint(f"\n\n#################### STEP: {IOLogger.STEP_INDEX}")
-
-            self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] keyword args')
-            self.print_structure('', kwargs)
-
-            ret = func(*args, **kwargs)
-
-            self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] outputs')
-            self.print_structure('', ret)
-            return ret
-        return wrapper
+        a=1
+        # def wrapper(*args, **kwargs):
+        #     if self.count_step:
+        #         IOLogger.STEP_INDEX += 1
+        #         print("\n\n#################### STEP:", IOLogger.STEP_INDEX)
+        #         self.fprint(f"\n\n#################### STEP: {IOLogger.STEP_INDEX}")
+        #
+        #     self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] keyword args')
+        #     self.print_structure('', kwargs)
+        #
+        #     ret = func(*args, **kwargs)
+        #
+        #     self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}.{func.__name__}] outputs')
+        #     self.print_structure('', ret)
+        #     return ret
+        # return wrapper
 
     def log_var(self, title, var):
         self.fprint(f'\n========== ({IOLogger.STEP_INDEX})[{self.call_stack}] variable: {title}')
