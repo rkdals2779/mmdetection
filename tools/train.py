@@ -19,7 +19,7 @@ def parse_args():
     # parser.add_argument('config', help='train config file path')
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
-    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_m_8xb8-300e_hyundai.py")
+    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py")
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/yolox/yolox_s_8xb8-300e_coco.py")
     parser.add_argument(
         '--resume',

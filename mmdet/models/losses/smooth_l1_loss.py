@@ -79,6 +79,7 @@ class SmoothL1Loss(nn.Module):
                 weight: Optional[Tensor] = None,
                 avg_factor: Optional[int] = None,
                 reduction_override: Optional[str] = None,
+                loss_mode = None,
                 **kwargs) -> Tensor:
         """Forward function.
 
@@ -97,6 +98,10 @@ class SmoothL1Loss(nn.Module):
             Tensor: Calculated loss
         """
         assert reduction_override in (None, 'none', 'mean', 'sum')
+        if loss_mode == "height":
+            non_zero_indices = (target != 0).squeeze()
+            target = target[non_zero_indices]
+            pred = pred[non_zero_indices]
         reduction = (
             reduction_override if reduction_override else self.reduction)
         loss_bbox = self.loss_weight * smooth_l1_loss(

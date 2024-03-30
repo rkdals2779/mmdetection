@@ -533,7 +533,8 @@ class YOLOXHead(BaseDenseHead):
                 bbox_targets) / num_total_samples
             loss_hgt = self.loss_hgt(
                 pred_height,
-                height_targets) / num_total_samples
+                height_targets,
+                loss_mode="height") / num_total_samples
 
         else:
             # Avoid cls and reg branch not participating in the gradient
