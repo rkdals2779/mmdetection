@@ -9,8 +9,8 @@ from typing import List, Union
 class HyundaiDataset(BaseDetDataset):
     METAINFO = {
         'classes':
-            ['bump', 'manhole', 'steel', 'pothole'],
-        'palette': [(220, 20, 60), (0, 0, 142), (0, 0, 70), (0, 60, 100)]
+            ['bump', 'manhole', 'steel', 'pothole', 'flat_bump'],
+        'palette': [(220, 20, 60), (0, 0, 142), (0, 0, 70), (0, 60, 100), (255, 100, 0)]
     }
 
     def __init__(self, *args, **kwargs):

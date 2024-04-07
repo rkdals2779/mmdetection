@@ -41,6 +41,9 @@ class DetectionEval(BaseMetric):
     def compute_metrics(self, results: list) -> Dict[str, float]:
         class_num = [0, 0, 0, 0]
         for grtr, pred in results:
+            ##
+            pred['labels'] = np.where(pred['labels']==4, 0, pred['labels'])
+            ##
             for i in grtr["labels"]:
                 class_num[i[0]] += 1
             self.pr_eval.count_tpfpfn(grtr, pred)

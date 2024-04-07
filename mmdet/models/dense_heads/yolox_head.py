@@ -515,7 +515,7 @@ class YOLOXHead(BaseDenseHead):
         obj_targets = torch.cat(obj_targets, 0)
         bbox_targets = torch.cat(bbox_targets, 0)
         height_targets = torch.cat(height_targets, 0)
-        pred_height = flatten_height.view(-1, 4)[pos_masks] * torch.cat(onehot_for_height, 0)
+        pred_height = flatten_height.view(-1, self.num_classes)[pos_masks] * torch.cat(onehot_for_height, 0)
         pred_height = torch.sum(pred_height, 1).unsqueeze(-1)
 
         if self.use_l1:
