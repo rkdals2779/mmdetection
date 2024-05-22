@@ -6,7 +6,7 @@ import mmdet_rilab.config as cfg
 
 class Visualizer:
     def __init__(self):
-        self.classes = ['bump','manhole', 'steel', 'pothole', 'flat_bump']
+        self.classes = ['bump', 'manhole', 'steel', 'pothole', 'flat_bump']
         self.save_path = cfg.PROJECT_ROOT + "/visual_log"
 
     def __call__(self, img_name, splits):

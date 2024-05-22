@@ -75,8 +75,8 @@ model = dict(
 
 # dataset settings
 dataset_type = 'HyundaiDataset'
-data_root = '/media/falcon/50fe2d19-4535-4db4-85fb-6970f063a4a11/ActiveDrive/HYD_2023/hyundai_v3_FINAL/'
-
+data_root = '/media/falcon/50fe2d19-4535-4db4-85fb-6970f063a4a11/ActiveDrive/HYD_2023/hyundai_v3_FINAL_add_diffu_pot/'
+# data_root = '/media/falcon/50fe2d19-4535-4db4-85fb-6970f063a4a11/ActiveDrive/HYD_2023/hyundai_sch/240126_1150/'
 # Example to use different file client
 # Method 1: simply set the data root and let the file I/O module
 # automatically infer from prefix (not support LMDB and Memcache yet)

@@ -132,3 +132,4 @@ class PREvaluator:
 
         height_err = np.abs(split['pred_tp_align']['heights'] - split['grtr_tp']['heights']).reshape(-1)
         self.height_errs.append(height_err)
+

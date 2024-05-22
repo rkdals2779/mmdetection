@@ -20,10 +20,10 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description='MMDet test (and eval) a model')
     # parser.add_argument('config', help='test config file path')
-    parser.add_argument('--config', help='test config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py")
+    parser.add_argument('--config', help='test config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_m_8xb8-300e_hyundai.py")
 
     # parser.add_argument('checkpoint', help='checkpoint file')
-    parser.add_argument('--checkpoint', help='checkpoint file', default="/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/epoch_300.pth")
+    parser.add_argument('--checkpoint', help='checkpoint file', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/tools/work_dirs/yolox_m_8xb8-300e_hyundai/epoch_300.pth")
 
     parser.add_argument(
         '--work-dir',
@@ -146,25 +146,9 @@ def main():
         runner.test_evaluator.metrics.append(
             DumpDetResults(out_file_path=args.out))
 
-
-
     # start testing
     runner.test()
 
-
-    #
-    import torch
-    torch.save(runner.model, "/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/try_chp/foo.pth")
-    torch.save(runner.model.state_dict(), "/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/try_chp/bar.pth")
-
-    epoch_300_pth = torch.load(
-        '/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/epoch_300.pth')
-    model_pth = torch.load('/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/try_chp/foo.pth')
-    model_pth_state_dict = torch.load('/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/try_chp/bar.pth')
-
-    print('asdfasdf')
-    exit()
-    #
 
 if __name__ == '__main__':
     main()

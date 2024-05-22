@@ -19,7 +19,7 @@ def parse_args():
     # parser.add_argument('config', help='train config file path')
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/Uplus/yolox/yolox_s_8xb8-300e_uplus.py")
-    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_s_8xb8-300e_hyundai.py")
+    parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/configs/Hyundai/yolox/yolox_m_8xb8-300e_hyundai.py")
     # parser.add_argument('--config', help='train config file path', default="/home/falcon/shin_work/Datacleaning/mmdetection/configs/yolox/yolox_s_8xb8-300e_coco.py")
     parser.add_argument(
         '--resume',
@@ -31,7 +31,7 @@ def parse_args():
     #     help='If specify checkpoint path, resume from it, while if not '
     #          'specify, try to auto resume from the latest checkpoint '
     #          'in the work directory.',
-    #     default="/home/falcon/shin_work/Datacleaning/mmdetection/tools/work_dirs/yolox_s_8xb8-300e_hyundai/epoch_170.pth")
+    #     default="/home/falcon/shin_work/MMdetectionHyundai/mmdetection/tools/work_dirs/yolox_m_8xb8-300e_hyundai/epoch_265.pth")
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--amp',
